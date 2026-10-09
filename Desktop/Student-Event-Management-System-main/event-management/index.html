@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EventHub | Student Event Management</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <header class="topbar">
+        <div class="container nav-shell">
+            <div class="brand">
+                <span class="brand-mark">E</span>
+                <span>EventHub</span>
+            </div>
+
+            <nav class="main-nav" aria-label="Main navigation">
+                <a href="#features">Features</a>
+                <a href="#events">Events</a>
+                <a href="#testimonials">Reviews</a>
+                <a href="#faq">FAQ</a>
+            </nav>
+
+            <div class="nav-actions">
+                <a href="login.html" class="nav-link">Login</a>
+                <a href="register.html" class="btn-primary small">Register</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="container landing-page">
+        <section class="hero">
+            <div class="hero-copy">
+                <span class="eyebrow">Campus life, simplified</span>
+                <h1>Turn event chaos into unforgettable student experiences.</h1>
+                <p>
+                    Discover club nights, workshops, hackathons, leadership programs, and cultural events
+                    in one place designed for modern campus life.
+                </p>
+
+                <div class="btn-group">
+                    <a href="register.html" class="btn-primary">Get Started</a>
+                    <a href="#events" class="btn-secondary">Explore Events</a>
+                </div>
+
+                <div class="hero-metrics">
+                    <div>
+                        <strong>1200+</strong>
+                        <span>Students</span>
+                    </div>
+                    <div>
+                        <strong>75</strong>
+                        <span>Events</span>
+                    </div>
+                    <div>
+                        <strong>4.9/5</strong>
+                        <span>Rating</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-panel">
+                <div class="status-card">
+                    <div class="card-header">
+                        <span>Upcoming highlight</span>
+                        <span class="badge live">Live</span>
+                    </div>
+                    <h3>Innovation Week 2026</h3>
+                    <p>Creative tech, startup pitches, and hands-on workshops.</p>
+
+                    <ul class="mini-list">
+                        <li>12+ speakers</li>
+                        <li>3-day campus expo</li>
+                        <li>Free registration</li>
+                    </ul>
+
+                    <div class="countdown-box">
+                        <span>Starts in</span>
+                        <strong id="countdownValue">00d 00h 00m</strong>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="feature-grid" id="features">
+            <div class="section-heading center">
+                <span class="eyebrow">Why students choose EventHub</span>
+                <h2>Everything you need to manage campus events</h2>
+            </div>
+
+            <div class="feature-list">
+                <article class="feature-card">
+                    <div class="feature-icon">📅</div>
+                    <h3>Smart scheduling</h3>
+                    <p>Track deadlines, event dates, and room bookings in one streamlined dashboard.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">🎯</div>
+                    <h3>Fast registration</h3>
+                    <p>Students can register in seconds and receive instant updates and reminders.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Live analytics</h3>
+                    <p>Admins monitor participation, popularity, and attendance trends in real time.</p>
+                </article>
+
+                <article class="feature-card">
+                    <div class="feature-icon">🤝</div>
+                    <h3>Campus community</h3>
+                    <p>Build clubs, committees, and volunteer circles around exciting student activities.</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="section" id="events">
+            <div class="section-heading">
+                <span class="eyebrow">Featured events</span>
+                <h2>Find something for every interest</h2>
+            </div>
+
+            <div class="filter-bar" aria-label="Event filters">
+                <button class="filter-btn active" data-category="all">All</button>
+                <button class="filter-btn" data-category="tech">Tech</button>
+                <button class="filter-btn" data-category="culture">Culture</button>
+                <button class="filter-btn" data-category="sports">Sports</button>
+                <button class="filter-btn" data-category="leadership">Leadership</button>
+            </div>
+
+            <div class="event-grid">
+                <article class="event-card" data-category="tech">
+                    <span class="event-badge tech">Tech</span>
+                    <h3>Hackathon Sprint 2026</h3>
+                    <p>Build smart campus solutions and pitch your ideas to mentors.</p>
+                    <div class="meta-row">
+                        <span>Dec 14</span>
+                        <span>Innovation Lab</span>
+                    </div>
+                    <a href="register.html" class="inline-link">Reserve a seat</a>
+                </article>
+
+                <article class="event-card" data-category="culture">
+                    <span class="event-badge culture">Culture</span>
+                    <h3>Global Night Festival</h3>
+                    <p>Celebrate diversity through food, music, performances, and student art.</p>
+                    <div class="meta-row">
+                        <span>Dec 18</span>
+                        <span>Main Hall</span>
+                    </div>
+                    <a href="register.html" class="inline-link">Reserve a seat</a>
+                </article>
+
+                <article class="event-card" data-category="sports">
+                    <span class="event-badge sports">Sports</span>
+                    <h3>Inter-College Championship</h3>
+                    <p>Join your teams for a weekend of friendly competition and team spirit.</p>
+                    <div class="meta-row">
+                        <span>Jan 05</span>
+                        <span>Stadium</span>
+                    </div>
+                    <a href="register.html" class="inline-link">Reserve a seat</a>
+                </article>
+
+                <article class="event-card" data-category="leadership">
+                    <span class="event-badge leadership">Leadership</span>
+                    <h3>Student Leadership Summit</h3>
+                    <p>Learn how to influence, motivate, and drive meaningful change on campus.</p>
+                    <div class="meta-row">
+                        <span>Jan 12</span>
+                        <span>Seminar Center</span>
+                    </div>
+                    <a href="register.html" class="inline-link">Reserve a seat</a>
+                </article>
+            </div>
+        </section>
+
+        <section class="section split-section">
+            <div class="how-it-works">
+                <span class="eyebrow">How it works</span>
+                <h2>Go from planning to participation in three easy steps</h2>
+
+                <div class="steps">
+                    <div class="step">
+                        <span class="step-index">01</span>
+                        <h3>Discover</h3>
+                        <p>Browse upcoming activities by category, date, or interest area.</p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-index">02</span>
+                        <h3>Register</h3>
+                        <p>Secure your seat and get reminders before the event starts.</p>
+                    </div>
+
+                    <div class="step">
+                        <span class="step-index">03</span>
+                        <h3>Participate</h3>
+                        <p>Attend, connect, and share your experience with the campus community.</p>
+                    </div>
+                </div>
+            </div>
+
+            <aside class="spotlight-panel">
+                <h3>Student success snapshot</h3>
+                <ul>
+                    <li><strong>92%</strong> of students discover events through the platform.</li>
+                    <li><strong>3x</strong> more registration engagement after launch.</li>
+                    <li><strong>500+</strong> volunteer hours tracked across campus initiatives.</li>
+                </ul>
+            </aside>
+        </section>
+
+        <section class="section testimonials" id="testimonials">
+            <div class="section-heading center">
+                <span class="eyebrow">Student feedback</span>
+                <h2>People love how easy it feels</h2>
+            </div>
+
+            <div class="testimonial-grid">
+                <article class="testimonial-card">
+                    <p>“I could sign up for three events in under five minutes. It's simple and clean.”</p>
+                    <div class="person">
+                        <strong>Riya N.</strong>
+                        <span>Computer Science</span>
+                    </div>
+                </article>
+
+                <article class="testimonial-card">
+                    <p>“The event updates and reminders helped me stay organized all semester.”</p>
+                    <div class="person">
+                        <strong>Daniel K.</strong>
+                        <span>Business Student</span>
+                    </div>
+                </article>
+
+                <article class="testimonial-card">
+                    <p>“As a club leader, this made event planning and attendance tracking much easier.”</p>
+                    <div class="person">
+                        <strong>Aisha M.</strong>
+                        <span>Student Leader</span>
+                    </div>
+                </article>
+            </div>
+        </section>
+
+        <section class="section faq-section" id="faq">
+            <div class="section-heading center">
+                <span class="eyebrow">Frequently asked questions</span>
+                <h2>Everything students want to know</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item active">
+                    <button class="faq-question" type="button">
+                        Can I register for more than one event?
+                        <span>+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes. Students can join multiple events and manage them from the same dashboard.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">
+                        Are the events free to join?
+                        <span>+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Some events are free while others may require a small fee or approval depending on the organizer.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question" type="button">
+                        Can administrators view attendance reports?
+                        <span>+</span>
+                    </button>
+                    <div class="faq-answer">
+                        Yes. Admins can monitor registered students, attendance trends, and participation summaries.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-banner">
+            <div>
+                <span class="eyebrow">Ready to join?</span>
+                <h2>Build a more connected campus experience.</h2>
+            </div>
+            <a href="register.html" class="btn-primary">Create account</a>
+        </section>
+    </main>
+
+    <footer class="site-footer">
+        <div class="container footer-content">
+            <p>© <span id="year"></span> EventHub. All rights reserved.</p>
+            <div class="footer-links">
+                <a href="login.html">Login</a>
+                <a href="register.html">Register</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const eventCards = document.querySelectorAll('.event-card');
+
+        filterButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const selectedCategory = button.dataset.category;
+
+                filterButtons.forEach((btn) => btn.classList.toggle('active', btn === button));
+
+                eventCards.forEach((card) => {
+                    const matches = selectedCategory === 'all' || card.dataset.category === selectedCategory;
+                    card.style.display = matches ? 'block' : 'none';
+                });
+            });
+        });
+
+        const faqButtons = document.querySelectorAll('.faq-question');
+        faqButtons.forEach((button) => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isOpen = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach((faq) => {
+                    faq.classList.remove('active');
+                });
+
+                if (!isOpen) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        const eventDate = new Date('2026-12-14T17:00:00');
+        const countdownValue = document.getElementById('countdownValue');
+
+        function updateCountdown() {
+            const now = new Date();
+            const distance = eventDate - now;
+
+            if (distance <= 0) {
+                countdownValue.textContent = 'Now live';
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance / (1000 * 60 * 60)) % 24);
+            const minutes = Math.floor((distance / (1000 * 60)) % 60);
+
+            countdownValue.textContent = `${days}d ${String(hours).padStart(2, '0')}h ${String(minutes).padStart(2, '0')}m`;
+        }
+
+        updateCountdown();
+        setInterval(updateCountdown, 60000);
+
+        document.getElementById('year').textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
