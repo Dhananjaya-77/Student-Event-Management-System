@@ -121,3 +121,5 @@ Both the **Classic Theme (`event-management/`)** and **Modern SIS Dashboard (`ev
 - **System Preference Detection**: Automatically adheres to your operating system's `prefers-color-scheme` if no custom preference is set.
 - **Floating & Header Toggles**: Easily toggle theme anywhere via the floating bottom-right button or header action buttons.
 - **Accessible WCAG Contrast**: Meticulously tuned colors, surfaces, borders, and input fields ensuring optimal legibility and contrast in both modes.
+# Dhananjaya-77-Student-Event-Management-System
+# Dhananjaya-77-Student-Event-Management-System

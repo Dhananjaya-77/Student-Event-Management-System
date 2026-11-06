@@ -34,6 +34,10 @@
                     <h3 id="totalRegistrations">0</h3>
                     <p>Total Registrations</p>
                 </div>
+                <div class="stat-card stat-card-upcoming">
+                    <span class="stat-icon">📅</span>
+                    <div><h3 id="totalUpcoming">0</h3><p>Upcoming Events</p></div>
+                </div>
             </div>
             
             <div class="tabs">
@@ -178,6 +182,7 @@
                 document.getElementById('totalEvents').textContent = stats.events || 0;
                 document.getElementById('totalUsers').textContent = stats.users || 0;
                 document.getElementById('totalRegistrations').textContent = stats.registrations || 0;
+                document.getElementById('totalUpcoming').textContent = stats.upcoming || 0;
             } catch (error) {
                 console.error('Error loading stats:', error);
             }

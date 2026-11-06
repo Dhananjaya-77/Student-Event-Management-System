@@ -20,14 +20,25 @@
     </nav>
     
     <div class="container">
-        <h2>Available Events</h2>
+        <div class="student-events-header">
+            <div>
+                <span class="eyebrow">Student dashboard</span>
+                <h2>Campus Events</h2>
+            </div>
+            <div class="event-view-tabs" aria-label="Event views">
+                <button type="button" class="event-view-tab active" data-view="all">All Events</button>
+                <button type="button" class="event-view-tab" data-view="registered">My Registrations</button>
+            </div>
+        </div>
         <div id="message" style="margin-bottom: 20px;"></div>
         <div id="eventsContainer">Loading events...</div>
     </div>
     
     <script>
         let currentUserId = null;
-        
+        let currentView = 'all';
+        let loadedEvents = [];
+
         // Check if user is logged in
         async function checkAuth() {
             try {
@@ -66,33 +77,9 @@
                 const events = await response.json();
                 console.log('Events loaded:', events);
                 
-                const container = document.getElementById('eventsContainer');
-                container.innerHTML = '';
+                loadedEvents = events; // Store loaded events for filtering
                 
-                if (!Array.isArray(events) || events.length === 0) {
-                    container.innerHTML = '<p>No events available at the moment.</p>';
-                    return;
-                }
-                
-                events.forEach(event => {
-                    const card = document.createElement('div');
-                    card.className = 'event-card';
-                    
-                    const isRegistered = event.is_registered === true || event.is_registered === 1;
-                    
-                    card.innerHTML = `
-                        <h3>${escapeHtml(event.title)}</h3>
-                        <p><strong>Date:</strong> ${escapeHtml(event.date)}</p>
-                        <p><strong>Venue:</strong> ${escapeHtml(event.venue)}</p>
-                        <p><strong>Organizer:</strong> ${escapeHtml(event.organizer)}</p>
-                        <p>${escapeHtml(event.description || '')}</p>
-                        ${isRegistered ? 
-                            '<button class="btn-registered" disabled>Already Registered ✓</button>' :
-                            `<button class="btn" onclick="registerEvent(${event.event_id})">Register Now</button>`
-                        }
-                    `;
-                    container.appendChild(card);
-                });
+                renderEvents(); // Initial render
             } catch (error) {
                 console.error('Error loading events:', error);
                 document.getElementById('eventsContainer').innerHTML =
@@ -154,6 +141,26 @@
             }
         }
         
+        // Cancel registration
+        async function cancelEvent(eventId) {
+            if (!confirm('Cancel registration for this event?')) return;
+            const messageDiv = document.getElementById('message');
+            const formData = new FormData();
+            formData.append('event_id', eventId);
+
+            try {
+                const response = await fetch('php/cancel_event.php', { method: 'POST', body: formData });
+                const result = await response.json();
+                messageDiv.innerHTML = `<p class="${result.success ? 'success' : 'error'}">${escapeHtml(result.message)}</p>`;
+                alert(result.message);
+                if (result.success) loadEvents();
+            } catch (error) {
+                const text = 'Network error. Please try again.';
+                messageDiv.innerHTML = '<p class="error">' + text + '</p>';
+                alert(text);
+            }
+        }
+        
         // Logout
         function logout() {
             if (confirm('Are you sure you want to logout?')) {
@@ -166,6 +173,50 @@
             const div = document.createElement('div');
             div.textContent = text;
             return div.innerHTML;
+        }
+        
+        // Tab switcher
+        document.querySelectorAll('.event-view-tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.event-view-tab').forEach(t => t.classList.remove('active'));
+                this.classList.add('active');
+                
+                currentView = this.getAttribute('data-view');
+                renderEvents();
+            });
+        });
+        
+        function renderEvents() {
+            const container = document.getElementById('eventsContainer');
+            const visibleEvents = currentView === 'registered'
+                ? loadedEvents.filter(event => event.is_registered === true || event.is_registered === 1)
+                : loadedEvents;
+
+            container.innerHTML = '';
+            if (visibleEvents.length === 0) {
+                container.innerHTML = currentView === 'registered'
+                    ? '<p>You have not registered for any events yet.</p>'
+                    : '<p>No events available at the moment.</p>';
+                return;
+            }
+
+            visibleEvents.forEach(event => {
+                const card = document.createElement('div');
+                card.className = 'event-card';
+                const isRegistered = event.is_registered === true || event.is_registered === 1;
+                card.innerHTML = `
+                    <h3>${escapeHtml(event.title)}</h3>
+                    <p><strong>Date:</strong> ${escapeHtml(event.date)}</p>
+                    <p><strong>Venue:</strong> ${escapeHtml(event.venue)}</p>
+                    <p><strong>Organizer:</strong> ${escapeHtml(event.organizer)}</p>
+                    <p>${escapeHtml(event.description || '')}</p>
+                    ${isRegistered
+                        ? `<button class="btn-registered" disabled>Registered ✓</button>
+                           <button class="btn-cancel-event" onclick="cancelEvent(${event.event_id})">Cancel Registration</button>`
+                        : `<button class="btn" onclick="registerEvent(${event.event_id})">Register Now</button>`}
+                `;
+                container.appendChild(card);
+            });
         }
         
         // Initialize

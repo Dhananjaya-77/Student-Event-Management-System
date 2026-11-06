@@ -1316,16 +1316,21 @@ a:hover {
     margin-top: var(--spacing-medium);
     box-shadow: var(--box-shadow);
     transition: background 0.3s ease, border-color 0.3s ease;
+    padding-top: 28px;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: var(--spacing-medium);
     margin-bottom: var(--spacing-large);
 }
 
 .stat-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    min-height: 118px;
     background: linear-gradient(135deg, var(--stat-gradient-start) 0%, var(--stat-gradient-end) 100%);
     color: #ffffff;
     padding: 24px;
@@ -1339,6 +1344,17 @@ a:hover {
 .stat-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+}
+
+.stat-icon {
+    display: inline-grid;
+    place-items: center;
+    width: 52px;
+    height: 52px;
+    flex: 0 0 52px;
+    border-radius: 16px;
+    background: rgba(96, 165, 250, 0.16);
+    font-size: 1.5rem;
 }
 
 .stat-card h3 {
@@ -1362,6 +1378,7 @@ a:hover {
     margin-bottom: var(--spacing-large);
     border-bottom: 2px solid var(--border-color);
     overflow-x: auto;
+    margin-top: 28px;
 }
 
 .tab {
@@ -1389,6 +1406,7 @@ a:hover {
 
 .tab-content {
     display: none;
+    animation: dashboardFade 0.25s ease;
 }
 
 .tab-content.active {
@@ -1398,6 +1416,11 @@ a:hover {
 
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes dashboardFade {
+    from { opacity: 0; transform: translateY(8px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
@@ -1602,6 +1625,21 @@ table tr:last-child td {
     }
 }
 
+@media (max-width: 700px) {
+    .student-events-header {
+        align-items: stretch;
+        flex-direction: column;
+    }
+
+    .event-view-tabs {
+        width: 100%;
+    }
+
+    .event-view-tab {
+        flex: 1;
+    }
+}
+
 @media (max-width: 640px) {
     body {
         padding: 12px;
@@ -1643,4 +1681,52 @@ table tr:last-child td {
         padding: 8px 14px;
         font-size: 12px;
     }
+}
+
+/* Student Dashboard Specific Styles */
+.student-events-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 24px;
+}
+
+.event-view-tabs {
+    display: flex;
+    gap: 10px;
+    padding: 5px;
+    border-radius: 12px;
+    background: rgba(96, 165, 250, 0.12);
+}
+
+.event-view-tab {
+    border: 0;
+    border-radius: 9px;
+    padding: 10px 14px;
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.event-view-tab.active {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+.btn-cancel-event {
+    width: 100%;
+    margin-top: 8px;
+    padding: 9px 12px;
+    border: 1px solid var(--error-color);
+    border-radius: 10px;
+    background: transparent;
+    color: var(--error-color);
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.btn-cancel-event:hover {
+    background: rgba(255, 92, 122, 0.12);
 }
