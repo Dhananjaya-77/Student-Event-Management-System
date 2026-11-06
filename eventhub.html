@@ -1,0 +1,4029 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>EduSphere Pro — Advanced Student Information & Campus Management System</title>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --accent:#4f46e5;--accent-light:#eef2ff;--accent-mid:#a5b4fc;--accent-dark:#3730a3;
+  --bg:#f8fafc;--surface:#ffffff;--surface2:#f1f5f9;--surface3:#e2e8f0;
+  --border:#e2e8f0;--border2:#cbd5e1;
+  --text:#0f172a;--text2:#475569;--text3:#94a3b8;
+  --green-bg:#ecfdf5;--green:#059669;--green-border:#a7f3d0;
+  --blue-bg:#eff6ff;--blue:#2563eb;--blue-border:#bfdbfe;
+  --amber-bg:#fffbeb;--amber:#d97706;--amber-border:#fde68a;
+  --red-bg:#fef2f2;--red:#dc2626;--red-border:#fecaca;
+  --purple-bg:#faf5ff;--purple:#7c3aed;--purple-border:#e9d5ff;
+  --pink-bg:#fdf2f8;--pink:#db2777;--pink-border:#fbcfe8;
+  --teal-bg:#f0fdfa;--teal:#0d9488;--teal-border:#99f6e4;
+  --radius:8px;--radius-lg:14px;--radius-xl:20px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 4px 6px -1px rgba(0,0,0,.07),0 2px 4px -2px rgba(0,0,0,.05);
+  --shadow-lg:0 10px 15px -3px rgba(0,0,0,.08),0 4px 6px -4px rgba(0,0,0,.04);
+}
+body.dark{
+  --accent:#6366f1;--accent-light:#1e1b4b;--accent-mid:#4338ca;--accent-dark:#4f46e5;
+  --bg:#0b0f19;--surface:#111827;--surface2:#1f2937;--surface3:#374151;
+  --border:#1f2937;--border2:#374151;
+  --text:#f8fafc;--text2:#cbd5e1;--text3:#64748b;
+  --green-bg:#064e3b;--green:#34d399;--green-border:#047857;
+  --blue-bg:#1e3a8a;--blue:#60a5fa;--blue-border:#1d4ed8;
+  --amber-bg:#78350f;--amber:#fbbf24;--amber-border:#92400e;
+  --red-bg:#7f1d1d;--red:#f87171;--red-border:#991b1b;
+  --purple-bg:#4c1d95;--purple:#c084fc;--purple-border:#6d28d9;
+  --pink-bg:#701a75;--pink:#f472b6;--pink-border:#9d174d;
+  --teal-bg:#134e4a;--teal:#2dd4bf;--teal-border:#115e59;
+}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;background:var(--bg);display:flex;min-height:100vh;font-size:14px;color:var(--text);transition:background .2s,color .2s}
+
+/* Sidebar */
+.sidebar{width:250px;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:30;transition:all .2s}
+.logo{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.logo-title{font-size:16px;font-weight:700;color:var(--accent);display:flex;align-items:center;gap:8px;letter-spacing:-.02em}
+.logo-sub{font-size:11px;color:var(--text3);margin-top:2px}
+.nav-section{padding:6px 0;border-bottom:1px solid var(--surface2)}
+.nav-label{font-size:10px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.08em;padding:8px 20px 4px}
+.nav-item{display:flex;align-items:center;gap:10px;padding:8px 20px;cursor:pointer;color:var(--text2);transition:background .15s,color .15s;border-left:3px solid transparent;font-size:13px;font-weight:500;text-decoration:none;position:relative}
+.nav-item:hover{background:var(--surface2);color:var(--text)}
+.nav-item.active{background:var(--accent-light);color:var(--accent);border-left-color:var(--accent);font-weight:600}
+.nav-item i{font-size:17px;width:18px;flex-shrink:0}
+.nav-badge{margin-left:auto;background:var(--red);color:#fff;font-size:10px;font-weight:700;padding:1px 6px;border-radius:10px}
+.nav-badge.blue{background:var(--blue)}
+.user-card{margin-top:auto;padding:12px 16px;border-top:1px solid var(--border);background:var(--surface2)}
+.user-avatar{width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0}
+.user-info-wrap{display:flex;align-items:center;gap:10px}
+.user-name{font-size:13px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.user-dept{font-size:11px;color:var(--text3)}
+
+/* Main Container */
+.main{margin-left:250px;flex:1;display:flex;flex-direction:column;min-height:100vh}
+.topbar{padding:12px 24px;border-bottom:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+.topbar-left h1{font-size:18px;font-weight:700;color:var(--text)}
+.topbar-left p{font-size:12px;color:var(--text3);margin-top:2px}
+.topbar-right{display:flex;align-items:center;gap:10px}
+.page{display:none;padding:24px}
+.page.active{display:block}
+
+/* Buttons & Inputs */
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 14px;border-radius:var(--radius);font-size:13px;font-weight:500;border:1px solid transparent;cursor:pointer;transition:all .15s;text-decoration:none}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-xs{padding:3px 8px;font-size:11px}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{opacity:.92}
+.btn-outline-primary{background:transparent;border-color:var(--accent);color:var(--accent)}
+.btn-outline-primary:hover{background:var(--accent-light)}
+.btn-success{background:var(--green);color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn-secondary{background:var(--surface3);color:var(--text)}
+.btn-icon{width:34px;height:34px;padding:0;justify-content:center;border-radius:var(--radius);border:1px solid var(--border);background:var(--surface);color:var(--text2)}
+.btn-icon:hover{background:var(--surface2);color:var(--text)}
+
+.form-group{margin-bottom:14px}
+.form-label{display:block;font-size:12px;font-weight:600;margin-bottom:5px;color:var(--text2)}
+.form-input,.form-select,.form-textarea{width:100%;padding:8px 12px;border:1px solid var(--border2);border-radius:var(--radius);font-size:13px;background:var(--surface);color:var(--text);transition:border-color .15s}
+.form-input:focus,.form-select:focus,.form-textarea:focus{outline:none;border-color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
+
+/* Cards & Badges */
+.card{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:20px;box-shadow:var(--shadow-sm)}
+.card-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+.card-title{font-size:15px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:8px}
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:20px}
+.kpi{background:var(--surface);border-radius:var(--radius-lg);padding:16px;border:1px solid var(--border);box-shadow:var(--shadow-sm)}
+.kpi-val{font-size:24px;font-weight:800;color:var(--text);line-height:1.2}
+.kpi-lbl{font-size:12px;color:var(--text3);margin-top:4px}
+.kpi-sub{font-size:11px;color:var(--green);font-weight:600;margin-top:6px;display:flex;align-items:center;gap:4px}
+
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:20px;font-size:11px;font-weight:600}
+.badge-primary{background:var(--accent-light);color:var(--accent)}
+.badge-green{background:var(--green-bg);color:var(--green)}
+.badge-blue{background:var(--blue-bg);color:var(--blue)}
+.badge-amber{background:var(--amber-bg);color:var(--amber)}
+.badge-red{background:var(--red-bg);color:var(--red)}
+.badge-purple{background:var(--purple-bg);color:var(--purple)}
+.badge-teal{background:var(--teal-bg);color:var(--teal)}
+
+/* Tabs */
+.tabs{display:flex;gap:4px;border-bottom:1px solid var(--border);margin-bottom:18px}
+.tab-btn{padding:8px 16px;border:none;background:transparent;cursor:pointer;font-size:13px;font-weight:500;color:var(--text2);border-bottom:2px solid transparent;transition:all .15s}
+.tab-btn:hover{color:var(--text)}
+.tab-btn.active{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+
+/* Tables */
+.table-wrap{overflow-x:auto}
+.table{width:100%;border-collapse:collapse;font-size:13px;text-align:left}
+.table th{padding:10px 14px;font-weight:600;color:var(--text3);background:var(--surface2);border-bottom:1px solid var(--border);font-size:11px;text-transform:uppercase;letter-spacing:.05em}
+.table td{padding:12px 14px;border-bottom:1px solid var(--border);color:var(--text)}
+.table tr:hover td{background:var(--surface2)}
+
+/* Modals */
+.modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);backdrop-filter:blur(3px);z-index:100;display:none;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.open{display:flex}
+.modal{background:var(--surface);border-radius:var(--radius-lg);border:1px solid var(--border);padding:24px;width:640px;max-width:100%;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg);animation:modalPop .2s ease-out}
+@keyframes modalPop{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:scale(1)}}
+.modal-title{font-size:16px;font-weight:700;color:var(--text);margin-bottom:16px;display:flex;justify-content:space-between;align-items:center}
+.modal-close{cursor:pointer;color:var(--text3);font-size:20px;padding:4px;border-radius:6px;transition:all .15s}
+.modal-close:hover{color:var(--text);background:var(--surface2)}
+
+/* Toast */
+.toast{position:fixed;top:20px;right:20px;padding:12px 20px;border-radius:var(--radius);font-size:13px;font-weight:500;z-index:400;opacity:0;transform:translateY(-10px);pointer-events:none;transition:all .25s;display:flex;align-items:center;gap:8px;box-shadow:var(--shadow-lg)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.success{background:var(--green);color:#fff}
+.toast.error{background:var(--red);color:#fff}
+.toast.info{background:var(--blue);color:#fff}
+
+/* Timetable Grid */
+.timetable-grid{display:grid;grid-template-columns:80px repeat(5,1fr);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;background:var(--surface)}
+.timetable-header{background:var(--surface2);padding:10px;text-align:center;font-weight:700;font-size:12px;border-bottom:1px solid var(--border);border-right:1px solid var(--border)}
+.time-col-slot{height:65px;border-bottom:1px solid var(--border);border-right:1px solid var(--border);display:flex;align-items:center;justify-content:center;font-size:11px;color:var(--text3);font-weight:600;background:var(--surface2)}
+.day-col{border-right:1px solid var(--border);position:relative}
+.class-slot{margin:4px;padding:8px;border-radius:6px;font-size:11px;box-shadow:var(--shadow-sm);cursor:pointer;transition:transform .15s;border-left:4px solid var(--accent)}
+.class-slot:hover{transform:scale(1.02);z-index:5}
+
+/* 3D Student ID Card */
+.id-card-scene{perspective:1000px;width:340px;height:215px;margin:20px auto;cursor:pointer}
+.id-card-inner{position:relative;width:100%;height:100%;text-align:left;transition:transform 0.8s;transform-style:preserve-3d;border-radius:16px;box-shadow:0 15px 35px rgba(0,0,0,.2)}
+.id-card-inner.flipped{transform:rotateY(180deg)}
+.id-card-front, .id-card-back{position:absolute;width:100%;height:100%;-webkit-backface-visibility:hidden;backface-visibility:hidden;border-radius:16px;padding:16px;overflow:hidden}
+.id-card-front{background:linear-gradient(135deg,#1e1b4b,#312e81,#4338ca);color:#fff;border:1px solid rgba(255,255,255,.2)}
+.id-card-back{background:linear-gradient(135deg,#0f172a,#1e293b);color:#cbd5e1;transform:rotateY(180deg);border:1px solid rgba(255,255,255,.1)}
+.id-chip{width:36px;height:26px;background:linear-gradient(135deg,#f59e0b,#d97706);border-radius:5px;border:1px solid #b45309;margin-bottom:8px}
+.magnetic-stripe{height:36px;background:#000;margin:-16px -16px 14px -16px}
+
+/* Printable Documents */
+.document-box{background:#fff;color:#1e293b;padding:32px;border:1px solid #cbd5e1;border-radius:var(--radius-lg);font-family:Georgia,serif}
+.document-seal{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#b45309,#f59e0b);color:#fff;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 10px}
+
+/* Progress bar */
+.progress-bar-wrap{width:100%;height:8px;background:var(--surface3);border-radius:10px;overflow:hidden}
+.progress-bar{height:100%;border-radius:10px;transition:width .3s}
+
+/* Calendar */
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.cal-head{text-align:center;font-size:11px;font-weight:700;color:var(--text3);padding:6px 0}
+.cal-day{min-height:85px;background:var(--surface2);border-radius:var(--radius);padding:6px;display:flex;flex-direction:column;gap:4px;border:1px solid transparent}
+.cal-day.today{border-color:var(--accent);background:var(--accent-light)}
+.cal-day-num{font-size:11px;font-weight:600;color:var(--text2)}
+.cal-event-pill{font-size:9px;font-weight:600;padding:2px 4px;border-radius:4px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;cursor:pointer;color:#fff}
+
+@media print{
+  body{background:#fff;color:#000}
+  .sidebar,.topbar,.btn,.modal-close,.no-print{display:none !important}
+  .main{margin-left:0;padding:0}
+  .modal-overlay{position:static;display:block;background:none;padding:0}
+  .modal{max-width:100%;width:100%;border:none;box-shadow:none;padding:0}
+}
+@media(max-width:1024px){
+  .sidebar{width:220px}
+  .main{margin-left:220px}
+}
+@media(max-width:768px){
+  .sidebar{transform:translateX(-100%)}
+  .sidebar.open{transform:translateX(0)}
+  .main{margin-left:0}
+  .timetable-grid{overflow-x:auto}
+  .topbar{padding:10px 14px}
+  .page{padding:14px}
+}
+</style>
+</head>
+<body>
+
+<div id="toast" class="toast"></div>
+
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="logo">
+    <div>
+      <div class="logo-title"><i class="ti ti-school"></i> EduSphere SIS</div>
+      <div class="logo-sub">Student & Campus Management</div>
+    </div>
+    <button class="btn btn-icon btn-sm" onclick="toggleDarkMode()" title="Toggle Theme" style="border:none">
+      <i class="ti ti-moon" id="theme-icon"></i>
+    </button>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Main</div>
+    <a class="nav-item active" onclick="navigate('dashboard')"><i class="ti ti-layout-dashboard"></i>Dashboard</a>
+    <a class="nav-item" onclick="navigate('announcements')"><i class="ti ti-bell-ringing"></i>Campus Bulletins</a>
+    <a class="nav-item" href="event-management/index.html"><i class="ti ti-history"></i>Classic Portal (Old Theme)</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Academics & SIS</div>
+    <a class="nav-item" onclick="navigate('academics')"><i class="ti ti-certificate"></i>Grades & Transcripts</a>
+    <a class="nav-item" onclick="navigate('courses')"><i class="ti ti-books"></i>Course Catalog & Enroll</a>
+    <a class="nav-item" onclick="navigate('timetable')"><i class="ti ti-calendar-time"></i>Class Timetable</a>
+    <a class="nav-item" onclick="navigate('academic-attendance')"><i class="ti ti-clipboard-check"></i>Attendance & Leaves</a>
+    <a class="nav-item" onclick="navigate('exams')"><i class="ti ti-file-text"></i>Exams & Hall Tickets</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Campus Life & Events</div>
+    <a class="nav-item" onclick="navigate('events')"><i class="ti ti-calendar-event"></i>All Events</a>
+    <a class="nav-item" onclick="navigate('calendar')"><i class="ti ti-calendar-month"></i>Event Calendar</a>
+    <a class="nav-item" onclick="navigate('my-events')"><i class="ti ti-ticket"></i>My Passes & Certificates</a>
+    <a class="nav-item" onclick="navigate('clubs')"><i class="ti ti-award"></i>Clubs & Societies</a>
+    <a class="nav-item" onclick="navigate('volunteers')"><i class="ti ti-heart-handshake"></i>Volunteer Hub</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Student Services</div>
+    <a class="nav-item" onclick="navigate('finance')"><i class="ti ti-wallet"></i>Tuition & Fee Billing</a>
+    <a class="nav-item" onclick="navigate('housing')"><i class="ti ti-home-2"></i>Hostel & Dormitory Hub</a>
+    <a class="nav-item" onclick="navigate('library')"><i class="ti ti-book-2"></i>Campus Library</a>
+    <a class="nav-item" onclick="navigate('careers')"><i class="ti ti-briefcase"></i>Careers & Internships</a>
+    <a class="nav-item" onclick="navigate('health')"><i class="ti ti-heartbeat"></i>Health & Counseling</a>
+    <a class="nav-item" onclick="navigate('id-card')"><i class="ti ti-id-badge-2"></i>Digital Student ID</a>
+  </div>
+
+  <div class="nav-section" id="nav-organizer" style="display:none">
+    <div class="nav-label">Faculty & Administration</div>
+    <a class="nav-item" onclick="navigate('students')"><i class="ti ti-users-group"></i>Student Directory</a>
+    <a class="nav-item" onclick="navigate('grade-entry')"><i class="ti ti-edit"></i>Submit Grades</a>
+    <a class="nav-item" onclick="navigate('approvals')" id="nav-approvals-item"><i class="ti ti-checklist"></i>Approvals & Leaves <span class="nav-badge" id="pending-badge" style="display:none">0</span></a>
+    <a class="nav-item" onclick="navigate('create-event')"><i class="ti ti-circle-plus"></i>Create Event</a>
+    <a class="nav-item" onclick="navigate('attendance')"><i class="ti ti-qrcode"></i>Live QR Check-In</a>
+    <a class="nav-item" onclick="navigate('budget')"><i class="ti ti-cash"></i>Budget & Expenses</a>
+    <a class="nav-item" onclick="navigate('reports')"><i class="ti ti-chart-bar"></i>Reports & Analytics</a>
+  </div>
+
+  <div class="nav-section">
+    <div class="nav-label">Account</div>
+    <a class="nav-item" id="nav-login-link" onclick="navigate('login')"><i class="ti ti-login"></i>Sign In</a>
+    <a class="nav-item" id="nav-logout-link" style="display:none" onclick="logout()"><i class="ti ti-logout"></i>Sign Out</a>
+  </div>
+
+  <div class="user-card" id="user-card" style="display:none">
+    <div class="user-info-wrap">
+      <div class="user-avatar" id="user-avatar">?</div>
+      <div style="flex:1;min-width:0">
+        <div class="user-name" id="user-name-txt">-</div>
+        <div class="user-dept" id="user-dept-txt">-</div>
+      </div>
+    </div>
+  </div>
+</aside>
+
+
+<div class="main">
+
+<header class="topbar">
+  <div class="topbar-left">
+    <h1 id="page-title">Dashboard</h1>
+    <p id="page-sub">Comprehensive overview of campus & academic activities</p>
+  </div>
+  <div class="topbar-right">
+    <div style="display:flex;align-items:center;gap:6px" class="no-print">
+      <span style="font-size:11px;color:var(--text3);font-weight:600">Switch Demo Role:</span>
+      <button class="btn btn-xs btn-outline-primary" onclick="quickLogin('student1','student123')" title="Switch to Student Amal">Amal (CS)</button>
+      <button class="btn btn-xs btn-outline-primary" onclick="quickLogin('student2','student123')" title="Switch to Student Nimali">Nimali (BBA)</button>
+      <button class="btn btn-xs btn-outline-primary" onclick="quickLogin('student3','student123')" title="Switch to Student Kasun">Kasun (Eng)</button>
+      <button class="btn btn-xs btn-secondary" onclick="quickLogin('dr.silva','faculty123')" title="Switch to Faculty Dr. Silva">Dr. Silva</button>
+      <button class="btn btn-xs btn-secondary" onclick="quickLogin('admin','admin123')" title="Switch to Administrator">Admin</button>
+    </div>
+    <div id="user-badge-top"></div>
+    <button class="btn btn-outline-primary btn-sm" onclick="openAiAdvisorModal()" title="AI Academic Advisor"><i class="ti ti-brain"></i> AI Advisor</button>
+  </div>
+</header>
+
+
+<!-- ==========================================
+     PAGE: LOGIN
+     ========================================== -->
+<div id="page-login" class="page active">
+  <div style="max-width:460px;margin:30px auto">
+    <div class="card" style="padding:32px">
+      <div style="text-align:center;margin-bottom:24px">
+        <div style="width:58px;height:58px;background:var(--accent-light);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-size:28px">
+          <i class="ti ti-school"></i>
+        </div>
+        <h2 style="font-size:20px;font-weight:700">EduSphere Campus Portal</h2>
+        <p style="font-size:12px;color:var(--text3);margin-top:4px">Comprehensive Student Information & Campus Management System</p>
+      </div>
+
+      <div id="login-flash" style="display:none;padding:10px 14px;border-radius:var(--radius);font-size:13px;margin-bottom:14px" class="badge-red"></div>
+
+      <div class="form-group">
+        <label class="form-label">Username</label>
+        <input id="login-user" class="form-input" placeholder="e.g. student1, student2, dr.silva, admin" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Password</label>
+        <input id="login-pass" class="form-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')doLogin()"/>
+      </div>
+      <button class="btn btn-primary" style="width:100%;justify-content:center;padding:10px;margin-top:8px" onclick="doLogin()">
+        <i class="ti ti-login"></i> Sign In to Portal
+      </button>
+
+      <div style="margin-top:24px;padding-top:16px;border-top:1px solid var(--border)">
+        <div style="font-size:11px;font-weight:700;color:var(--text3);text-transform:uppercase;margin-bottom:10px;letter-spacing:.05em">Instant 1-Click Role Switcher</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn btn-secondary btn-sm" style="justify-content:flex-start" onclick="quickLogin('student1','student123')">
+            <i class="ti ti-user"></i> <b>Amal Fernando</b> (CS Student · STU001)
+          </button>
+          <button class="btn btn-secondary btn-sm" style="justify-content:flex-start" onclick="quickLogin('student2','student123')">
+            <i class="ti ti-user"></i> <b>Nimali Rathnayake</b> (Business Student · STU002)
+          </button>
+          <button class="btn btn-secondary btn-sm" style="justify-content:flex-start" onclick="quickLogin('student3','student123')">
+            <i class="ti ti-user"></i> <b>Kasun Bandara</b> (Engineering Student · STU003)
+          </button>
+          <button class="btn btn-secondary btn-sm" style="justify-content:flex-start" onclick="quickLogin('dr.silva','faculty123')">
+            <i class="ti ti-briefcase"></i> <b>Dr. Kamal Silva</b> (Faculty & Dept Head)
+          </button>
+          <button class="btn btn-secondary btn-sm" style="justify-content:flex-start" onclick="quickLogin('admin','admin123')">
+            <i class="ti ti-shield-check"></i> <b>Dean Marcus Vance</b> (Campus Administrator)
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: DASHBOARD
+     ========================================== -->
+<div id="page-dashboard" class="page">
+  <div id="dash-banner" class="card" style="margin-bottom:20px;background:linear-gradient(135deg,var(--accent-light),var(--surface));border-left:5px solid var(--accent)">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px">
+      <div>
+        <h2 style="font-size:18px;font-weight:700;color:var(--text)" id="dash-greeting">Welcome to EduSphere!</h2>
+        <p style="font-size:13px;color:var(--text2);margin-top:4px" id="dash-sub">Academic Term: Fall Semester 2026 · Week 10</p>
+      </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap" id="dash-quick-btns"></div>
+    </div>
+  </div>
+
+  <div class="kpi-grid" id="dash-kpis"></div>
+
+  <div style="display:grid;grid-template-columns:2fr 1fr;gap:20px" class="dash-grid-layout">
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-calendar-time"></i> Today's Class & Exam Schedule</div>
+          <button class="btn btn-outline-primary btn-xs" onclick="navigate('timetable')">Full Timetable</button>
+        </div>
+        <div id="dash-today-schedule"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-calendar-event"></i> Upcoming Campus Events & Competitions</div>
+          <button class="btn btn-outline-primary btn-xs" onclick="navigate('events')">All Events</button>
+        </div>
+        <div id="dash-events-list"></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="card" style="margin-bottom:20px">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-bell"></i> Campus Bulletins</div>
+          <button class="btn btn-outline-primary btn-xs" onclick="navigate('announcements')">View All</button>
+        </div>
+        <div id="dash-announcements" style="display:flex;flex-direction:column;gap:10px"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title"><i class="ti ti-sparkles"></i> AI Academic Advisor</div>
+        </div>
+        <div style="font-size:13px;color:var(--text2);margin-bottom:12px" id="dash-ai-advisor-summary">
+          Analyzing attendance and coursework balance...
+        </div>
+        <button class="btn btn-outline-primary btn-sm" style="width:100%;justify-content:center" onclick="openAiAdvisorModal()">
+          <i class="ti ti-brain"></i> Open Academic Copilot
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: ACADEMICS & TRANSCRIPTS
+     ========================================== -->
+<div id="page-academics" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Official Academic Dossier & Transcript</h2>
+      <p style="font-size:12px;color:var(--text3)">Cumulative grade point average, semester breakdowns, and degree progress audit</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline-primary btn-sm" onclick="openTargetGpaModal()"><i class="ti ti-calculator"></i> CGPA Target Calculator</button>
+      <button class="btn btn-primary btn-sm" onclick="openOfficialTranscriptModal()"><i class="ti ti-certificate"></i> Generate Official Transcript</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" id="academics-kpis"></div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-school"></i> Degree Completion Progress</div>
+      <span class="badge badge-primary" id="acad-degree-badge">B.Sc. (Hons) in Computer Science</span>
+    </div>
+    <div style="margin-bottom:8px;display:flex;justify-content:space-between;font-size:12px;font-weight:600">
+      <span id="acad-credit-txt">88 of 120 Credits Earned</span>
+      <span id="acad-pct-txt">73.3% Completed</span>
+    </div>
+    <div class="progress-bar-wrap">
+      <div class="progress-bar" id="acad-progress-bar" style="width:73.3%;background:var(--accent)"></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-list-check"></i> Course Enrolment & Semester Grades</div>
+      <div style="display:flex;gap:8px">
+        <select class="form-select form-input" style="width:auto" id="acad-sem-filter" onchange="renderAcademics()">
+          <option value="all">All Semesters</option>
+          <option value="Semester 5 (Current)">Semester 5 (Current)</option>
+          <option value="Semester 4 (Spring 2026)">Semester 4 (Spring 2026)</option>
+          <option value="Semester 3 (Fall 2025)">Semester 3 (Fall 2025)</option>
+          <option value="Semester 2 (Spring 2025)">Semester 2 (Spring 2025)</option>
+          <option value="Semester 1 (Fall 2024)">Semester 1 (Fall 2024)</option>
+        </select>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table class="table" id="acad-grades-table">
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Name</th>
+            <th>Credits</th>
+            <th>Term / Semester</th>
+            <th>Grade Point</th>
+            <th>Letter Grade</th>
+            <th>Attendance</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="acad-grades-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: COURSE CATALOG & ADD/DROP
+     ========================================== -->
+<div id="page-courses" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Course Catalog & Add/Drop Enrolment</h2>
+      <p style="font-size:12px;color:var(--text3)">Browse university syllabus offerings, check prerequisites, and manage class registrations</p>
+    </div>
+    <div id="courses-enrolled-summary" class="badge badge-primary" style="font-size:13px;padding:6px 14px"></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;padding:14px">
+    <div class="form-row" style="grid-template-columns:2fr 1fr">
+      <input id="courses-search" class="form-input" placeholder="Search by course code, title, instructor or topic..." oninput="renderCourses()"/>
+      <select id="courses-dept-filter" class="form-select form-input" onchange="renderCourses()">
+        <option value="all">All Departments</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Business Administration">Business Administration</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="courses-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: WEEKLY CLASS TIMETABLE
+     ========================================== -->
+<div id="page-timetable" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Weekly Academic Lecture & Lab Timetable</h2>
+      <p style="font-size:12px;color:var(--text3)">Synchronized with enrolled courses · Automatic schedule conflict detection</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <span class="badge badge-green" style="font-size:12px"><i class="ti ti-shield-check"></i> No Schedule Conflicts</span>
+      <button class="btn btn-outline-primary btn-sm" onclick="exportTimetableICS()"><i class="ti ti-download"></i> Export Calendar (.ICS)</button>
+      <button class="btn btn-secondary btn-sm" onclick="window.print()"><i class="ti ti-printer"></i> Print</button>
+    </div>
+  </div>
+
+  <div id="timetable-wrap"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: ACADEMIC ATTENDANCE & LEAVES
+     ========================================== -->
+<div id="page-academic-attendance" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Course Attendance & Official Leave Requests</h2>
+      <p style="font-size:12px;color:var(--text3)">Minimum 75% attendance mandatory to qualify for final examinations</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openLeaveModal()"><i class="ti ti-calendar-plus"></i> Submit Leave / Medical Excuse</button>
+  </div>
+
+  <div id="attendance-policy-alert"></div>
+  <div class="kpi-grid" id="attendance-kpis"></div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-list-details"></i> Course-by-Course Attendance Breakdown</div>
+    </div>
+    <div id="course-attendance-list" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-history"></i> Leave of Absence & Excuse Application History</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Application ID</th>
+            <th>Course</th>
+            <th>Date Period</th>
+            <th>Type</th>
+            <th>Reason</th>
+            <th>Status</th>
+            <th>Reviewer</th>
+          </tr>
+        </thead>
+        <tbody id="leaves-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: EXAMS & HALL TICKETS
+     ========================================== -->
+<div id="page-exams" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">End-Semester Examinations & Hall Admission Tickets</h2>
+      <p style="font-size:12px;color:var(--text3)">Official timetable, seating arrangements, and hall ticket generation</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openHallTicketModal()"><i class="ti ti-id"></i> Generate Official Hall Ticket</button>
+  </div>
+
+  <div class="kpi-grid" id="exams-kpis"></div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-calendar-event"></i> Final Examination Timetable</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Examination Venue</th>
+            <th>Assigned Desk</th>
+            <th>Invigilator</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="exams-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card" style="background:var(--surface2)">
+    <div class="card-title" style="margin-bottom:10px"><i class="ti ti-alert-triangle"></i> Examination Hall Regulations & Code of Conduct</div>
+    <ul style="font-size:12px;color:var(--text2);padding-left:18px;line-height:1.7">
+      <li>Candidates must present a valid printed <b>Hall Ticket</b> and university <b>Student ID Card</b> at the hall entrance.</li>
+      <li>Entry is barred 15 minutes after examination start time. No student may depart during the first hour.</li>
+      <li>Electronic devices, smartwatches, and programmable calculators are strictly prohibited inside the hall.</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: TUITION & FEES BILLING
+     ========================================== -->
+<div id="page-finance" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Student Tuition, Fees & Financial Ledger</h2>
+      <p style="font-size:12px;color:var(--text3)">Invoices, payments, scholarship grants, and official receipts</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline-primary btn-sm" onclick="openFeeReceiptModal()"><i class="ti ti-file-dollar"></i> View Official Receipt</button>
+      <button class="btn btn-success btn-sm" onclick="openPaymentGatewayModal()" id="btn-pay-fees"><i class="ti ti-credit-card"></i> Pay Outstanding Fees</button>
+    </div>
+  </div>
+
+  <div class="kpi-grid" id="finance-kpis"></div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-file-invoice"></i> Current Semester Fee Invoice & Breakdown</div>
+      <span class="badge badge-green" id="finance-status-badge">Paid</span>
+    </div>
+    <div id="finance-scholarship-note" style="margin-bottom:14px;padding:8px 12px;background:var(--accent-light);border-radius:var(--radius);font-size:12px;color:var(--accent);font-weight:600"></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Fee Description</th>
+            <th style="text-align:right">Amount (LKR)</th>
+          </tr>
+        </thead>
+        <tbody id="finance-items-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-history"></i> Payment History & Transaction Receipts</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Receipt No</th>
+            <th>Date</th>
+            <th>Method</th>
+            <th>Transaction Ref</th>
+            <th>Amount Paid</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="finance-history-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: HOSTEL & HOUSING
+     ========================================== -->
+<div id="page-housing" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Hostel & Campus Residential Housing</h2>
+      <p style="font-size:12px;color:var(--text3)">Room allocations, roommates, facilities, and maintenance requests</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openDormTicketModal()"><i class="ti ti-tool"></i> Submit Maintenance Ticket</button>
+  </div>
+
+  <div class="card" style="margin-bottom:20px" id="housing-allocation-card"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-clipboard-list"></i> Residence Maintenance & Repair Tickets</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Ticket ID</th>
+            <th>Category</th>
+            <th>Issue Description</th>
+            <th>Urgency</th>
+            <th>Date Reported</th>
+            <th>Status</th>
+            <th>Assigned Technician</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="housing-tickets-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: CAMPUS DIGITAL LIBRARY
+     ========================================== -->
+<div id="page-library" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Campus Digital Library & Learning Commons</h2>
+      <p style="font-size:12px;color:var(--text3)">Search book catalog, renew loans, reserve textbooks, and monitor fines</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-bookmark"></i> My Active Borrowed Books</div>
+    </div>
+    <div id="library-my-loans" style="display:flex;flex-direction:column;gap:10px"></div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-books"></i> University Library Catalog</div>
+      <input id="library-search" class="form-input" style="max-width:280px" placeholder="Search title, author, ISBN..." oninput="renderLibrary()"/>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Title & Author</th>
+            <th>Category</th>
+            <th>ISBN</th>
+            <th>Shelf Location</th>
+            <th>Available Copies</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="library-catalog-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: CAREERS & PLACEMENTS
+     ========================================== -->
+<div id="page-careers" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Career Services, Internships & Campus Placement</h2>
+      <p style="font-size:12px;color:var(--text3)">Exclusive job opportunities from campus corporate recruiting partners</p>
+    </div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-clipboard-check"></i> My Job & Internship Applications</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Role & Company</th>
+            <th>Applied Date</th>
+            <th>Status</th>
+            <th>Recruiter Notes / Progress</th>
+          </tr>
+        </thead>
+        <tbody id="careers-my-apps-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-briefcase"></i> Featured Campus Career Opportunities</div>
+    </div>
+    <div id="careers-jobs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: HEALTH & WELLNESS
+     ========================================== -->
+<div id="page-health" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Student Health, Medical Records & Counseling</h2>
+      <p style="font-size:12px;color:var(--text3)">Confidential wellness records, emergency dispatch, and clinic appointments</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openHealthModal()"><i class="ti ti-calendar-plus"></i> Book Medical / Counseling Slot</button>
+  </div>
+
+  <div id="health-profile-card" class="card" style="margin-bottom:20px"></div>
+
+  <div class="card">
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-stethoscope"></i> Upcoming Appointments & Clinical Consultations</div>
+    </div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead>
+          <tr>
+            <th>Service Type</th>
+            <th>Attending Doctor / Counselor</th>
+            <th>Date & Time</th>
+            <th>Reason / Clinical Note</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="health-appointments-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: DIGITAL STUDENT ID CARD
+     ========================================== -->
+<div id="page-id-card" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Digital Student Smart ID Card</h2>
+      <p style="font-size:12px;color:var(--text3)">Interactive 3D smart badge with NFC chip, barcode, and security verification</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button class="btn btn-outline-primary btn-sm" onclick="flipStudentIdCard()"><i class="ti ti-rotate"></i> Flip Card</button>
+      <button class="btn btn-secondary btn-sm" onclick="printStudentIdCard()"><i class="ti ti-printer"></i> Print ID Badge</button>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-bottom:16px;font-size:12px;color:var(--text3)">
+    Click the card or the button below to rotate between front and back
+  </div>
+
+  <div class="id-card-scene" onclick="flipStudentIdCard()">
+    <div class="id-card-inner" id="id-card-3d-box">
+      <!-- FRONT -->
+      <div class="id-card-front" id="id-card-front-content"></div>
+      <!-- BACK -->
+      <div class="id-card-back" id="id-card-back-content"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: ALL EVENTS
+     ========================================== -->
+<div id="page-events" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">All Campus Events & Workshops</h2>
+      <p style="font-size:12px;color:var(--text3)">Register for collegiate conferences, cultural nights, and athletic championships</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="navigate('calendar')"><i class="ti ti-calendar-month"></i> View Calendar</button>
+  </div>
+
+  <div class="card" style="margin-bottom:20px;padding:12px">
+    <div class="form-row" style="grid-template-columns:2fr 1fr">
+      <input id="events-search" class="form-input" placeholder="Search events by title, venue, club..." oninput="renderEvents()"/>
+      <select id="events-cat-filter" class="form-select form-input" onchange="renderEvents()">
+        <option value="all">All Categories</option>
+        <option value="workshop">Workshops</option>
+        <option value="hackathon">Hackathons</option>
+        <option value="sports">Sports</option>
+        <option value="seminar">Seminars</option>
+        <option value="cultural">Cultural</option>
+      </select>
+    </div>
+  </div>
+
+  <div id="events-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: EVENT CALENDAR
+     ========================================== -->
+<div id="page-calendar" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Monthly Campus Event Calendar</h2>
+      <p style="font-size:12px;color:var(--text3)">Browse events and schedule dates dynamically</p>
+    </div>
+    <div style="display:flex;gap:6px;align-items:center">
+      <button class="btn btn-icon btn-sm" onclick="changeCalMonth(-1)"><i class="ti ti-chevron-left"></i></button>
+      <span id="cal-month-title" style="font-weight:700;font-size:14px;min-width:120px;text-align:center"></span>
+      <button class="btn btn-icon btn-sm" onclick="changeCalMonth(1)"><i class="ti ti-chevron-right"></i></button>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="cal-grid" id="cal-header-row">
+      <div class="cal-head">Sun</div><div class="cal-head">Mon</div><div class="cal-head">Tue</div>
+      <div class="cal-head">Wed</div><div class="cal-head">Thu</div><div class="cal-head">Fri</div><div class="cal-head">Sat</div>
+    </div>
+    <div class="cal-grid" id="cal-days-grid"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: MY EVENTS & PASSES
+     ========================================== -->
+<div id="page-my-events" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">My Registered Events, QR Passes & Certificates</h2>
+      <p style="font-size:12px;color:var(--text3)">Instant digital event admission tickets and official participation certificates</p>
+    </div>
+  </div>
+  <div id="my-events-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: CLUBS & SOCIETIES
+     ========================================== -->
+<div id="page-clubs" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Student Clubs & Recognized Societies</h2>
+      <p style="font-size:12px;color:var(--text3)">Join campus societies, technical chapters, and arts guilds</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('add-club-modal')"><i class="ti ti-circle-plus"></i> Charter New Society</button>
+  </div>
+  <div id="clubs-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: VOLUNTEER HUB
+     ========================================== -->
+<div id="page-volunteers" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Campus Volunteer & Leadership Service Hub</h2>
+      <p style="font-size:12px;color:var(--text3)">Earn community service hours, build leadership credentials, and assist organizers</p>
+    </div>
+  </div>
+  <div class="kpi-grid" id="volunteers-kpis"></div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header"><div class="card-title"><i class="ti ti-user-check"></i> My Volunteer Assignments</div></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Event Title</th><th>Designated Role</th><th>Hours</th><th>Status</th></tr></thead>
+        <tbody id="my-volunteers-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><i class="ti ti-heart-handshake"></i> Available Volunteer Opportunities</div></div>
+    <div id="volunteer-ops-list" style="display:flex;flex-direction:column;gap:12px"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: CAMPUS BULLETINS / ANNOUNCEMENTS
+     ========================================== -->
+<div id="page-announcements" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Official Campus Bulletins & Broadcasts</h2>
+      <p style="font-size:12px;color:var(--text3)">Institutional notices, schedule alerts, and administrative circulars</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('announce-modal')" id="btn-post-announcement" style="display:none">
+      <i class="ti ti-speakerphone"></i> Post Bulletin
+    </button>
+  </div>
+  <div id="announcements-list" style="display:flex;flex-direction:column;gap:12px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: STUDENT DIRECTORY (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-students" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Student Directory & Academic Dossiers</h2>
+      <p style="font-size:12px;color:var(--text3)">Search full institutional student records, GPA standings, and transcripts</p>
+    </div>
+    <button class="btn btn-primary btn-sm" onclick="openModal('add-student-modal')"><i class="ti ti-user-plus"></i> Enroll New Student</button>
+  </div>
+  <div class="card" style="margin-bottom:20px;padding:12px">
+    <div class="form-row" style="grid-template-columns:2fr 1fr">
+      <input id="student-search" class="form-input" placeholder="Search by name, student code, department..." oninput="renderStudents()"/>
+      <select id="student-dept-filter" class="form-select form-input" onchange="renderStudents()">
+        <option value="all">All Departments</option>
+        <option value="Computer Science">Computer Science</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Business Administration">Business Administration</option>
+      </select>
+    </div>
+  </div>
+  <div id="students-grid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>
+</div>
+
+<!-- ==========================================
+     PAGE: SUBMIT GRADES (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-grade-entry" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Faculty Grade Entry & Submission Portal</h2>
+      <p style="font-size:12px;color:var(--text3)">Submit official term grades, update attendance percentages, and record academic evaluations</p>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:20px;padding:20px">
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Select Student</label>
+        <select id="grade-student-select" class="form-select form-input" onchange="updateGradeFormCourses()"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Course</label>
+        <select id="grade-course-select" class="form-select form-input"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Grade</label>
+        <select id="grade-val-select" class="form-select form-input">
+          <option value="A+">A+ (4.00 · Exceptional)</option>
+          <option value="A">A (4.00 · Excellent)</option>
+          <option value="A-">A- (3.70 · Very Good)</option>
+          <option value="B+">B+ (3.30 · Good)</option>
+          <option value="B">B (3.00 · Satisfactory)</option>
+          <option value="B-">B- (2.70 · Fair)</option>
+          <option value="C+">C+ (2.30 · Pass)</option>
+          <option value="C">C (2.00 · Marginal)</option>
+          <option value="F">F (0.00 · Fail)</option>
+        </select>
+      </div>
+    </div>
+    <button class="btn btn-primary" onclick="saveFacultyGrade()"><i class="ti ti-check"></i> Submit Official Grade</button>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><i class="ti ti-history"></i> Current Enrolment Records & Grades</div></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Student</th><th>Course</th><th>Semester</th><th>Grade</th><th>GPA Point</th><th>Attendance</th><th>Status</th></tr></thead>
+        <tbody id="grade-records-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: APPROVALS & LEAVES (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-approvals" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Administrative Approvals Queue</h2>
+      <p style="font-size:12px;color:var(--text3)">Review pending event proposals and student medical/leave requests</p>
+    </div>
+  </div>
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-header"><div class="card-title"><i class="ti ti-calendar-event"></i> Pending Event Proposals</div></div>
+    <div id="approvals-events-list"></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><i class="ti ti-clipboard-check"></i> Pending Student Leave Applications</div></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Student</th><th>Course</th><th>Dates</th><th>Type</th><th>Reason</th><th>Actions</th></tr></thead>
+        <tbody id="approvals-leaves-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: CREATE EVENT (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-create-event" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Propose New Campus Event</h2>
+      <p style="font-size:12px;color:var(--text3)">Submit conference, workshop, hackathon, or cultural program for institutional approval</p>
+    </div>
+  </div>
+  <div class="card" style="max-width:760px">
+    <div class="form-group"><label class="form-label">Event Title *</label><input id="new-evt-title" class="form-input" placeholder="e.g. AI in Healthcare Symposium 2026"/></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select id="new-evt-type" class="form-select form-input">
+          <option value="workshop">Workshop</option>
+          <option value="hackathon">Hackathon</option>
+          <option value="sports">Athletics / Sports</option>
+          <option value="seminar">Seminar / Guest Lecture</option>
+          <option value="cultural">Cultural Festival</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Venue / Hall *</label><input id="new-evt-venue" class="form-input" placeholder="e.g. Main Auditorium"/></div>
+    </div>
+    <div class="form-row-3">
+      <div class="form-group"><label class="form-label">Start Time *</label><input id="new-evt-start" class="form-input" type="datetime-local"/></div>
+      <div class="form-group"><label class="form-label">End Time *</label><input id="new-evt-end" class="form-input" type="datetime-local"/></div>
+      <div class="form-group"><label class="form-label">Registration Deadline</label><input id="new-evt-deadline" class="form-input" type="datetime-local"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Capacity Limit (Pax)</label><input id="new-evt-max" class="form-input" type="number" value="100"/></div>
+      <div class="form-group"><label class="form-label">Budget Allocation (LKR)</label><input id="new-evt-budget" class="form-input" type="number" value="50000"/></div>
+    </div>
+    <div class="form-group">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
+        <label class="form-label">Event Description & Learning Objectives</label>
+        <button class="btn btn-outline-primary btn-xs" onclick="generateAiEventDesc()"><i class="ti ti-sparkles"></i> AI Write Copy</button>
+      </div>
+      <textarea id="new-evt-desc" class="form-input" rows="4" placeholder="Detailed program description..."></textarea>
+    </div>
+    <button class="btn btn-primary" onclick="submitNewEvent()"><i class="ti ti-check"></i> Submit Event Proposal</button>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: LIVE QR CHECK-IN (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-attendance" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Live QR Code Admission Check-In</h2>
+      <p style="font-size:12px;color:var(--text3)">Instant ticket validation, credential verification, and certificate unlock</p>
+    </div>
+  </div>
+  <div class="card" style="max-width:600px;margin:0 auto 20px">
+    <div class="scanner-viewport">
+      <div class="scanner-laser"></div>
+      <i class="ti ti-qrcode" style="font-size:48px;color:var(--text3);margin-bottom:8px"></i>
+      <span style="font-size:12px;color:var(--text3);font-weight:600">Simulated QR Code Optical Sensor Active</span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Manual Pass Code or Scan Input</label>
+      <div style="display:flex;gap:8px">
+        <input id="qr-input-code" class="form-input" placeholder="e.g. CERT-E5F6G7H8 or Student Code"/>
+        <button class="btn btn-primary" onclick="processQrCheckIn()"><i class="ti ti-check"></i> Verify Pass</button>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><i class="ti ti-history"></i> Recent Event Check-In Audit Log</div></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Attendee</th><th>Student ID</th><th>Event</th><th>Check-In Timestamp</th><th>Certificate Ref</th></tr></thead>
+        <tbody id="attendance-audit-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: BUDGET & EXPENSES (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-budget" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">Event Budget & Financial Ledger</h2>
+      <p style="font-size:12px;color:var(--text3)">Approved budgets, expense disbursement ledger, and AI budget optimization</p>
+    </div>
+    <button class="btn btn-outline-primary btn-sm" onclick="runAiBudgetOptimizer()"><i class="ti ti-sparkles"></i> AI Budget Optimizer</button>
+  </div>
+  <div class="kpi-grid" id="budget-kpis"></div>
+  <div class="card" style="margin-bottom:20px;padding:16px">
+    <div class="card-title" style="margin-bottom:12px"><i class="ti ti-plus"></i> Record Disbursed Expense</div>
+    <div class="form-row-3">
+      <div class="form-group">
+        <label class="form-label">Select Event</label>
+        <select id="exp-event-select" class="form-select form-input"></select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <select id="exp-cat-select" class="form-select form-input">
+          <option value="equipment">AV & Equipment</option>
+          <option value="catering">Catering & Meals</option>
+          <option value="materials">Badges & Printing</option>
+          <option value="prizes">Awards & Cash Prizes</option>
+        </select>
+      </div>
+      <div class="form-group"><label class="form-label">Amount (LKR)</label><input id="exp-amt" class="form-input" type="number" placeholder="25000"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Description / Invoice Ref</label><input id="exp-desc" class="form-input" placeholder="e.g. Stage lighting & PA audio rental"/></div>
+    <button class="btn btn-primary btn-sm" onclick="saveNewExpense()"><i class="ti ti-check"></i> Post Expense</button>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="card-title"><i class="ti ti-receipt"></i> Disbursed Expense Ledger</div></div>
+    <div class="table-wrap">
+      <table class="table">
+        <thead><tr><th>Event</th><th>Category</th><th>Description</th><th>Date</th><th style="text-align:right">Amount (LKR)</th></tr></thead>
+        <tbody id="budget-expenses-tbody"></tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     PAGE: REPORTS & ANALYTICS (FACULTY/ADMIN)
+     ========================================== -->
+<div id="page-reports" class="page">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;flex-wrap:wrap;gap:10px">
+    <div>
+      <h2 style="font-size:17px;font-weight:700">University Analytics & Executive Reports</h2>
+      <p style="font-size:12px;color:var(--text3)">Student engagement leaderboards, academic statistics, and institutional summaries</p>
+    </div>
+    <button class="btn btn-secondary btn-sm" onclick="window.print()"><i class="ti ti-printer"></i> Print Executive Summary</button>
+  </div>
+  <div class="kpi-grid" id="reports-kpis"></div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px">
+    <div class="card">
+      <div class="card-header"><div class="card-title"><i class="ti ti-trophy"></i> Student Engagement Leaderboard</div></div>
+      <div class="table-wrap">
+        <table class="table">
+          <thead><tr><th>Rank</th><th>Student Name</th><th>Dept</th><th>GPA</th><th>Volunteer Hrs</th></tr></thead>
+          <tbody id="reports-leaderboard-tbody"></tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card">
+      <div class="card-header"><div class="card-title"><i class="ti ti-chart-pie"></i> Faculty Enrolment & Event Statistics</div></div>
+      <div id="reports-dept-stats" style="display:flex;flex-direction:column;gap:12px"></div>
+    </div>
+  </div>
+</div>
+</div><!-- /main -->
+
+<!-- ==========================================
+     MODAL: OFFICIAL ACADEMIC TRANSCRIPT
+     ========================================== -->
+<div class="modal-overlay" id="transcript-modal" onclick="if(event.target===this)closeModal('transcript-modal')">
+  <div class="modal" style="max-width:760px">
+    <div class="modal-title no-print">
+      <span>Official University Academic Transcript</span>
+      <span class="modal-close" onclick="closeModal('transcript-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="transcript-doc-content" class="document-box"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px" class="no-print">
+      <button class="btn btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print Official Transcript</button>
+      <button class="btn btn-secondary" onclick="closeModal('transcript-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: EXAMINATION HALL TICKET
+     ========================================== -->
+<div class="modal-overlay" id="hall-ticket-modal" onclick="if(event.target===this)closeModal('hall-ticket-modal')">
+  <div class="modal" style="max-width:720px">
+    <div class="modal-title no-print">
+      <span>Official Examination Admission Ticket</span>
+      <span class="modal-close" onclick="closeModal('hall-ticket-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="hall-ticket-content" class="document-box"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px" class="no-print">
+      <button class="btn btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print Hall Ticket</button>
+      <button class="btn btn-secondary" onclick="closeModal('hall-ticket-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: OFFICIAL FEE RECEIPT
+     ========================================== -->
+<div class="modal-overlay" id="receipt-modal" onclick="if(event.target===this)closeModal('receipt-modal')">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-title no-print">
+      <span>Official Tuition Fee Receipt</span>
+      <span class="modal-close" onclick="closeModal('receipt-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="receipt-content" class="document-box"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px" class="no-print">
+      <button class="btn btn-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print Statement / Receipt</button>
+      <button class="btn btn-secondary" onclick="closeModal('receipt-modal')">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: COURSE SYLLABUS
+     ========================================== -->
+<div class="modal-overlay" id="syllabus-modal" onclick="if(event.target===this)closeModal('syllabus-modal')">
+  <div class="modal" style="max-width:580px">
+    <div class="modal-title">
+      <span id="syllabus-modal-title">Course Syllabus</span>
+      <span class="modal-close" onclick="closeModal('syllabus-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="syllabus-modal-body"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: SUBMIT LEAVE REQUEST
+     ========================================== -->
+<div class="modal-overlay" id="leave-modal" onclick="if(event.target===this)closeModal('leave-modal')">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title">
+      <span>Apply for Academic Leave / Medical Excuse</span>
+      <span class="modal-close" onclick="closeModal('leave-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Course Affected *</label>
+      <select id="leave-course" class="form-select form-input"></select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Start Date *</label><input id="leave-start" class="form-input" type="date"/></div>
+      <div class="form-group"><label class="form-label">End Date *</label><input id="leave-end" class="form-input" type="date"/></div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Absence Category</label>
+      <select id="leave-type" class="form-select form-input">
+        <option value="Medical">Medical / Illness (Doctor Note Attached)</option>
+        <option value="Academic Competition">Academic Competition / Collegiate Representation</option>
+        <option value="Personal / Family">Personal Emergency / Bereavement</option>
+        <option value="Religious / Cultural">Official Religious Observance</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Justification / Reason *</label>
+      <textarea id="leave-reason" class="form-input" rows="3" placeholder="Provide details of your absence justification..."></textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitLeaveRequest()">
+      <i class="ti ti-send"></i> Submit Leave Request
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: ONLINE PAYMENT GATEWAY
+     ========================================== -->
+<div class="modal-overlay" id="payment-modal" onclick="if(event.target===this)closeModal('payment-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>Campus Pay Online Gateway</span>
+      <span class="modal-close" onclick="closeModal('payment-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div style="background:var(--accent-light);padding:14px;border-radius:var(--radius);margin-bottom:16px">
+      <div style="font-size:12px;color:var(--text3)">Total Outstanding Balance</div>
+      <div style="font-size:24px;font-weight:800;color:var(--accent)" id="pay-modal-amount">Rs. 0</div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Payment Method</label>
+      <select id="pay-method" class="form-select form-input">
+        <option value="Credit / Debit Card">Visa / MasterCard / UnionPay</option>
+        <option value="Campus Pay Wallet">Campus Student e-Wallet</option>
+        <option value="Direct NetBanking">Direct Bank Transfer (CEFT)</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Card / Account Number</label><input class="form-input" placeholder="4111 2222 3333 4444" value="4532 •••• •••• 8821"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Expiry Date</label><input class="form-input" placeholder="MM/YY" value="08/28"/></div>
+      <div class="form-group"><label class="form-label">CVV</label><input class="form-input" type="password" placeholder="•••" value="842"/></div>
+    </div>
+    <button class="btn btn-success" style="width:100%;justify-content:center;padding:10px" onclick="processFeePayment()">
+      <i class="ti ti-lock"></i> Authorize & Pay Fees
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: SUBMIT DORM MAINTENANCE TICKET
+     ========================================== -->
+<div class="modal-overlay" id="dorm-ticket-modal" onclick="if(event.target===this)closeModal('dorm-ticket-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>Submit Residence Work Order</span>
+      <span class="modal-close" onclick="closeModal('dorm-ticket-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Issue Category</label>
+      <select id="dorm-cat" class="form-select form-input">
+        <option value="Plumbing">Plumbing & Water Supply</option>
+        <option value="Air Conditioning & HVAC">Air Conditioning & HVAC</option>
+        <option value="Electrical & Lighting">Electrical & Lighting</option>
+        <option value="Wi-Fi & Networking">Wi-Fi & Networking</option>
+        <option value="Furniture & Carpentry">Furniture & Carpentry</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Urgency Level</label>
+      <select id="dorm-urgency" class="form-select form-input">
+        <option value="Low">Low (Routine)</option>
+        <option value="Medium" selected>Medium (Standard)</option>
+        <option value="High">High (Urgent)</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Problem Summary *</label><input id="dorm-title" class="form-input" placeholder="e.g. Shower drain clogged in Room B-304"/></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitDormTicket()">
+      <i class="ti ti-check"></i> Submit Ticket
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: BOOK HEALTH APPOINTMENT
+     ========================================== -->
+<div class="modal-overlay" id="health-modal" onclick="if(event.target===this)closeModal('health-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>Schedule Wellness Appointment</span>
+      <span class="modal-close" onclick="closeModal('health-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Service Type</label>
+      <select id="health-service" class="form-select form-input">
+        <option value="General Physician Consultation">General Physician Consultation</option>
+        <option value="Mental Health & Counseling">Mental Health & Psychological Counseling</option>
+        <option value="Sports Physiotherapy">Sports Injury & Physiotherapy</option>
+        <option value="Vaccination & Routine Clearance">Vaccination & Routine Clearance</option>
+      </select>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Preferred Date *</label><input id="health-date" class="form-input" type="date"/></div>
+      <div class="form-group">
+        <label class="form-label">Time Slot</label>
+        <select id="health-time" class="form-select form-input">
+          <option value="09:00 AM">09:00 AM</option>
+          <option value="10:30 AM">10:30 AM</option>
+          <option value="02:00 PM">02:00 PM</option>
+          <option value="04:00 PM">04:00 PM</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Consultation Reason *</label><input id="health-reason" class="form-input" placeholder="Brief reason for consultation..."/></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitHealthAppointment()">
+      <i class="ti ti-calendar-plus"></i> Confirm Appointment
+    </button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: TARGET GPA CALCULATOR
+     ========================================== -->
+<div class="modal-overlay" id="target-gpa-modal" onclick="if(event.target===this)closeModal('target-gpa-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>CGPA Target & Graduation Forecaster</span>
+      <span class="modal-close" onclick="closeModal('target-gpa-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Current CGPA</label>
+      <input id="calc-current-gpa" class="form-input" type="number" step="0.01" readonly/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Target CGPA Goal *</label>
+      <input id="calc-target-gpa" class="form-input" type="number" step="0.01" value="3.90"/>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Remaining Semesters to Graduate</label>
+      <input id="calc-rem-sem" class="form-input" type="number" value="3"/>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="calculateTargetGpa()">
+      <i class="ti ti-calculator"></i> Calculate Required Term GPA
+    </button>
+    <div id="calc-result" style="display:none;margin-top:16px;padding:12px;border-radius:var(--radius);background:var(--accent-light);font-size:13px;line-height:1.5"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: AI ACADEMIC COPILOT
+     ========================================== -->
+<div class="modal-overlay" id="ai-advisor-modal" onclick="if(event.target===this)closeModal('ai-advisor-modal')">
+  <div class="modal" style="max-width:640px">
+    <div class="modal-title">
+      <span><i class="ti ti-sparkles" style="color:var(--accent)"></i> AI Academic Copilot & Early Warning</span>
+      <span class="modal-close" onclick="closeModal('ai-advisor-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="ai-advisor-content"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:16px">
+      <button class="btn btn-outline-primary btn-sm" onclick="generateAiStudyPlan()"><i class="ti ti-calendar"></i> Generate Weekly Routine</button>
+      <button class="btn btn-secondary btn-sm" onclick="closeModal('ai-advisor-modal')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: EVENT DETAILS & REGISTRATION
+     ========================================== -->
+<div class="modal-overlay" id="event-modal" onclick="if(event.target===this)closeModal('event-modal')">
+  <div class="modal">
+    <div class="modal-title">
+      <span id="modal-title-txt">Event Details</span>
+      <span class="modal-close" onclick="closeModal('event-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="modal-content"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: DIGITAL EVENT PASS
+     ========================================== -->
+<div class="modal-overlay" id="pass-modal" onclick="if(event.target===this)closeModal('pass-modal')">
+  <div class="modal" style="max-width:440px;text-align:center;background:transparent;border:none;box-shadow:none;padding:0">
+    <div class="ticket-pass" style="background:linear-gradient(135deg,#4f46e5,#7c3aed);color:#fff;border-radius:20px;padding:24px;position:relative;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+        <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;opacity:.8">University Event Pass</div>
+        <div style="cursor:pointer;font-size:20px" onclick="closeModal('pass-modal')"><i class="ti ti-x"></i></div>
+      </div>
+      <div id="ticket-event-title" style="font-size:18px;font-weight:700;margin-bottom:4px"></div>
+      <div id="ticket-event-venue" style="font-size:12px;opacity:.9;margin-bottom:16px"></div>
+      <div id="ticket-qr-container" style="background:#fff;padding:12px;border-radius:14px;display:inline-block;margin:10px auto"></div>
+      <div id="ticket-code-txt" style="font-family:monospace;font-size:14px;font-weight:700;letter-spacing:.1em;margin-top:6px"></div>
+      <div id="ticket-student-name" style="font-size:13px;font-weight:600;margin-top:8px"></div>
+      <div id="ticket-event-date" style="font-size:11px;opacity:.8;margin-top:2px"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: CERTIFICATE OF PARTICIPATION
+     ========================================== -->
+<div class="modal-overlay" id="cert-modal" onclick="if(event.target===this)closeModal('cert-modal')">
+  <div class="modal" style="max-width:680px">
+    <div class="modal-title no-print">
+      <span>Official Credential Verification</span>
+      <span class="modal-close" onclick="closeModal('cert-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="cert-content"></div>
+    <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px" class="no-print">
+      <button class="btn btn-outline-primary" onclick="window.print()"><i class="ti ti-printer"></i> Print / Save as PDF</button>
+      <button class="btn btn-success" onclick="closeModal('cert-modal')"><i class="ti ti-check"></i> Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: STUDENT DOSSIER
+     ========================================== -->
+<div class="modal-overlay" id="student-modal" onclick="if(event.target===this)closeModal('student-modal')">
+  <div class="modal">
+    <div class="modal-title">
+      <span>Student Academic & Co-Curricular Dossier</span>
+      <span class="modal-close" onclick="closeModal('student-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="student-modal-content"></div>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: ADD STUDENT
+     ========================================== -->
+<div class="modal-overlay" id="add-student-modal" onclick="if(event.target===this)closeModal('add-student-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>Enroll New Student</span>
+      <span class="modal-close" onclick="closeModal('add-student-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group"><label class="form-label">Student ID *</label><input id="new-stu-id" class="form-input" placeholder="STU004"/></div>
+    <div class="form-group"><label class="form-label">Full Name *</label><input id="new-stu-name" class="form-input" placeholder="Anuki De Silva"/></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Department</label>
+        <select id="new-stu-dept" class="form-select form-input">
+          <option value="Computer Science">Computer Science</option>
+          <option value="Engineering">Engineering</option>
+          <option value="Business Administration">Business Administration</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Academic Year</label>
+        <select id="new-stu-year" class="form-select form-input">
+          <option value="1">Year 1</option>
+          <option value="2">Year 2</option>
+          <option value="3">Year 3</option>
+          <option value="4">Year 4</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Initial GPA</label><input id="new-stu-gpa" class="form-input" type="number" step="0.01" value="3.75"/></div>
+      <div class="form-group"><label class="form-label">Password</label><input id="new-stu-pw" class="form-input" value="student123"/></div>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveNewStudent()"><i class="ti ti-check"></i> Register Student</button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: ADD CLUB
+     ========================================== -->
+<div class="modal-overlay" id="add-club-modal" onclick="if(event.target===this)closeModal('add-club-modal')">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-title">
+      <span>Charter New Campus Society</span>
+      <span class="modal-close" onclick="closeModal('add-club-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group"><label class="form-label">Society Name *</label><input id="new-club-name" class="form-input" placeholder="Robotics & AI Guild"/></div>
+    <div class="form-group">
+      <label class="form-label">Category</label>
+      <select id="new-club-cat" class="form-select form-input">
+        <option value="Technical">Technical</option>
+        <option value="Cultural">Cultural & Arts</option>
+        <option value="Community">Community Service</option>
+        <option value="Sports">Athletics & Sports</option>
+      </select>
+    </div>
+    <div class="form-group"><label class="form-label">Faculty Advisor</label><input id="new-club-advisor" class="form-input" placeholder="Dr. Kamal Silva"/></div>
+    <div class="form-group"><label class="form-label">Mission Statement</label><textarea id="new-club-desc" class="form-input" rows="3"></textarea></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="saveNewClub()"><i class="ti ti-check"></i> Charter Society</button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: ANNOUNCEMENT
+     ========================================== -->
+<div class="modal-overlay" id="announce-modal" onclick="if(event.target===this)closeModal('announce-modal')">
+  <div class="modal" style="max-width:500px">
+    <div class="modal-title">
+      <span>Broadcast Campus Bulletin</span>
+      <span class="modal-close" onclick="closeModal('announce-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div class="form-group"><label class="form-label">Subject *</label><input id="anc-title" class="form-input" placeholder="Venue Relocation Notice"/></div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Priority Level</label>
+        <select id="anc-priority" class="form-select form-input">
+          <option value="high">High (Urgent)</option>
+          <option value="normal" selected>Normal</option>
+          <option value="low">Low (General)</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Target Audience</label>
+        <select id="anc-target" class="form-select form-input">
+          <option value="All Students & Faculty">All Students & Faculty</option>
+          <option value="Computer Science">Computer Science Only</option>
+          <option value="Engineering">Engineering Only</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group"><label class="form-label">Notice Message *</label><textarea id="anc-msg" class="form-input" rows="3"></textarea></div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="postAnnouncement()"><i class="ti ti-send"></i> Broadcast Notice</button>
+  </div>
+</div>
+
+<!-- ==========================================
+     MODAL: EVENT FEEDBACK
+     ========================================== -->
+<div class="modal-overlay" id="feedback-modal" onclick="if(event.target===this)closeModal('feedback-modal')">
+  <div class="modal" style="max-width:440px">
+    <div class="modal-title">
+      <span id="fb-modal-title">Event Quality Review</span>
+      <span class="modal-close" onclick="closeModal('feedback-modal')"><i class="ti ti-x"></i></span>
+    </div>
+    <div id="fb-form"></div>
+  </div>
+</div>
+
+<script>
+
+/* ==========================================================================
+   RENDER: DASHBOARD
+   ========================================================================== */
+function renderDashboard(){
+  if(!currentUser) return;
+  const isStudent = currentUser.role === 'student';
+  const uname = currentUser.username;
+
+  document.getElementById('dash-greeting').textContent = `Welcome back, ${currentUser.name}!`;
+  document.getElementById('dash-sub').textContent = `Role: ${currentUser.role.toUpperCase()} · ${currentUser.dept} · Academic Term Fall 2026`;
+
+  // Quick Action Buttons
+  const quickBox = document.getElementById('dash-quick-btns');
+  if(isStudent){
+    quickBox.innerHTML = `
+      <button class="btn btn-primary btn-sm" onclick="navigate('academics')"><i class="ti ti-certificate"></i> Transcripts</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('timetable')"><i class="ti ti-calendar-time"></i> Timetable</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('courses')"><i class="ti ti-books"></i> Add/Drop</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('id-card')"><i class="ti ti-id-badge-2"></i> ID Card</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="openAiAdvisorModal()"><i class="ti ti-sparkles"></i> AI Copilot</button>
+    `;
+  } else {
+    quickBox.innerHTML = `
+      <button class="btn btn-primary btn-sm" onclick="navigate('create-event')"><i class="ti ti-plus"></i> New Event</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('grade-entry')"><i class="ti ti-edit"></i> Submit Grades</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('attendance')"><i class="ti ti-qrcode"></i> Live QR Scan</button>
+      <button class="btn btn-outline-primary btn-sm" onclick="navigate('approvals')"><i class="ti ti-checklist"></i> Approvals</button>
+    `;
+  }
+
+  // Dashboard KPIs
+  const kpis = document.getElementById('dash-kpis');
+  if(isStudent){
+    const enr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+    const bill = db.billing.find(b=>b.studentId===uname) || {balance:0};
+    const loans = db.loans.filter(l=>l.studentId===uname);
+    const regs = db.registrations.filter(r=>r.studentId===uname);
+    const totalCredits = enr.reduce((a,b)=>a+b.credits, 0);
+
+    const avgAtt = enr.length ? Math.round(enr.reduce((a,b)=>a+b.attendancePct, 0) / enr.length) : 95;
+
+    kpis.innerHTML = `
+      <div class="kpi">
+        <div class="kpi-val">${currentUser.cgpa || 3.82}</div>
+        <div class="kpi-lbl">Cumulative CGPA</div>
+        <div class="kpi-sub"><i class="ti ti-trophy"></i> ${currentUser.standing || "Dean's List"}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--accent)">${enr.length} Courses</div>
+        <div class="kpi-lbl">${totalCredits} Enrolled Credits</div>
+        <div class="kpi-sub" style="color:var(--text3)">Max 18 Allowed</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:${avgAtt>=75?'var(--green)':'var(--red)'}">${avgAtt}%</div>
+        <div class="kpi-lbl">Class Attendance</div>
+        <div class="kpi-sub" style="color:${avgAtt>=75?'var(--green)':'var(--red)'}"><i class="ti ti-check"></i> ${avgAtt>=75?'Eligible for Exams':'Warning: Below 75%'}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:${bill.balance===0?'var(--green)':'var(--amber)'}">Rs. ${bill.balance.toLocaleString()}</div>
+        <div class="kpi-lbl">Tuition Balance</div>
+        <div class="kpi-sub" style="color:${bill.balance===0?'var(--green)':'var(--amber)'}">${bill.balance===0?'Fully Settled':'Payment Due'}</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--blue)">${loans.length} Books</div>
+        <div class="kpi-lbl">Library Loans</div>
+        <div class="kpi-sub" style="color:var(--blue)"><i class="ti ti-book"></i> Active Borrowings</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--purple)">${regs.length} Events</div>
+        <div class="kpi-lbl">Campus Registrations</div>
+        <div class="kpi-sub" style="color:var(--purple)"><i class="ti ti-ticket"></i> Passes Ready</div>
+      </div>
+    `;
+  } else {
+    const totalStu = Object.values(db.users).filter(u=>u.role==='student').length;
+    const totalEvt = db.events.length;
+    const pendingEvt = db.events.filter(e=>e.status==='pending').length;
+    const totalCourses = db.courses.length;
+
+    kpis.innerHTML = `
+      <div class="kpi">
+        <div class="kpi-val">${totalStu}</div>
+        <div class="kpi-lbl">Total Enrolled Students</div>
+        <div class="kpi-sub"><i class="ti ti-users"></i> Across All Faculties</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--accent)">${totalCourses}</div>
+        <div class="kpi-lbl">Academic Courses</div>
+        <div class="kpi-sub">Active This Semester</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--green)">${totalEvt}</div>
+        <div class="kpi-lbl">Campus Events</div>
+        <div class="kpi-sub">Approved & Scheduled</div>
+      </div>
+      <div class="kpi">
+        <div class="kpi-val" style="color:var(--amber)">${pendingEvt}</div>
+        <div class="kpi-lbl">Pending Approvals</div>
+        <div class="kpi-sub" style="color:var(--amber)">Review Required</div>
+      </div>
+    `;
+  }
+
+  // Today's schedule
+  const todayBox = document.getElementById('dash-today-schedule');
+  const enrCourses = db.courses.slice(0, 3);
+  todayBox.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${enrCourses.map(c=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);border-left:4px solid var(--accent)">
+          <div>
+            <div style="font-weight:700;font-size:13px">${c.code} · ${c.title}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px"><i class="ti ti-clock"></i> ${c.schedule} · <i class="ti ti-map-pin"></i> ${c.venue} · ${c.instructor}</div>
+          </div>
+          <span class="badge badge-primary">${c.credits} Credits</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Upcoming Events
+  const eventsBox = document.getElementById('dash-events-list');
+  const upcoming = db.events.filter(e=>e.status==='approved').slice(0, 3);
+  eventsBox.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:8px">
+      ${upcoming.map(e=>`
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--surface2);border-radius:var(--radius);cursor:pointer" onclick="openEventModal(${e.id})">
+          <div>
+            <div style="font-weight:700;font-size:13px">${e.title}</div>
+            <div style="font-size:11px;color:var(--text3);margin-top:2px"><i class="ti ti-calendar"></i> ${new Date(e.start).toLocaleDateString()} · <i class="ti ti-map-pin"></i> ${e.venue}</div>
+          </div>
+          <span class="badge badge-purple">${e.type.toUpperCase()}</span>
+        </div>
+      `).join('')}
+    </div>
+  `;
+
+  // Bulletins
+  const annBox = document.getElementById('dash-announcements');
+  annBox.innerHTML = db.announcements.slice(0, 3).map(a=>`
+    <div style="padding:10px;background:var(--surface2);border-radius:var(--radius);font-size:12px">
+      <div style="font-weight:700;color:var(--text);margin-bottom:2px">${a.title}</div>
+      <div style="color:var(--text2);margin-bottom:4px">${a.msg}</div>
+      <div style="font-size:10px;color:var(--text3)">${a.date} · ${a.author}</div>
+    </div>
+  `).join('');
+
+  // AI Summary
+  if(isStudent){
+    const enr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+    const lowAtt = enr.filter(e=>e.attendancePct < 75);
+    if(lowAtt.length > 0){
+      document.getElementById('dash-ai-advisor-summary').innerHTML = `
+        <div style="color:var(--red);font-weight:600;margin-bottom:4px"><i class="ti ti-alert-triangle"></i> Attendance Alert:</div>
+        Your attendance in <b>${lowAtt.map(x=>x.courseCode).join(', ')}</b> is below the 75% threshold. We recommend submitting an official excuse or attending the next 4 lectures to restore full exam eligibility.
+      `;
+    } else {
+      document.getElementById('dash-ai-advisor-summary').innerHTML = `
+        <div style="color:var(--green);font-weight:600;margin-bottom:4px"><i class="ti ti-check"></i> Academic Standing: Stellar</div>
+        Your GPA (${currentUser.cgpa || 3.82}) places you on the Dean's List. Current coursework is well balanced with your volunteer hours (${currentUser.hours || 14} hrs).
+      `;
+    }
+  } else {
+    document.getElementById('dash-ai-advisor-summary').textContent = "Campus-wide operations running at peak efficiency. 0 critical system alerts.";
+  }
+}
+
+/* ==========================================================================
+   RENDER: ACADEMICS & TRANSCRIPTS
+   ========================================================================== */
+function renderAcademics(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const student = db.users[uname] || currentUser;
+
+  const enr = db.enrollments.filter(e=>e.studentId===uname);
+  const completed = enr.filter(e=>e.status==='Completed');
+  const current = enr.filter(e=>e.status==='In Progress');
+
+  const earnedCredits = student.credits || 88;
+  const maxCredits = student.maxCredits || 120;
+  const pct = Math.round((earnedCredits / maxCredits) * 100);
+
+  document.getElementById('acad-credit-txt').textContent = `${earnedCredits} of ${maxCredits} Credits Earned`;
+  document.getElementById('acad-pct-txt').textContent = `${pct}% Toward Graduation`;
+  document.getElementById('acad-progress-bar').style.width = pct + '%';
+  document.getElementById('acad-degree-badge').textContent = `Faculty of ${student.dept || 'Computer Science'}`;
+
+  // Academics KPIs
+  document.getElementById('academics-kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-val">${student.cgpa || 3.82}</div>
+      <div class="kpi-lbl">Cumulative CGPA</div>
+      <div class="kpi-sub"><i class="ti ti-award"></i> Scale of 4.00</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--accent)">${student.gpa || 3.84}</div>
+      <div class="kpi-lbl">Latest Term GPA</div>
+      <div class="kpi-sub">Semester 4 (Spring 2026)</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--green)">${earnedCredits} / ${maxCredits}</div>
+      <div class="kpi-lbl">Total Credits Completed</div>
+      <div class="kpi-sub">${maxCredits - earnedCredits} Credits Remaining</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--purple)">${student.standing || "Dean's Honors"}</div>
+      <div class="kpi-lbl">Academic Standing</div>
+      <div class="kpi-sub">Good Institutional Standing</div>
+    </div>
+  `;
+
+  const semFilter = document.getElementById('acad-sem-filter')?.value || 'all';
+  let filtered = enr;
+  if(semFilter !== 'all') filtered = enr.filter(e=>e.semester === semFilter);
+
+  const tbody = document.getElementById('acad-grades-tbody');
+  tbody.innerHTML = filtered.map(item=>{
+    const c = db.courses.find(x=>x.code===item.courseCode) || {title: item.courseCode};
+    const attBadge = item.attendancePct >= 85 ? 'badge-green' : (item.attendancePct >= 75 ? 'badge-amber' : 'badge-red');
+    const gradeBadge = item.grade === 'Enrolled' ? 'badge-primary' : 'badge-green';
+
+    return `
+      <tr>
+        <td><b>${item.courseCode}</b></td>
+        <td>${c.title}</td>
+        <td>${item.credits}</td>
+        <td>${item.semester}</td>
+        <td><b>${item.point.toFixed(2)}</b></td>
+        <td><span class="badge ${gradeBadge}">${item.grade}</span></td>
+        <td><span class="badge ${attBadge}">${item.attendancePct}%</span></td>
+        <td><span class="badge ${item.status==='Completed'?'badge-green':'badge-purple'}">${item.status}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function openOfficialTranscriptModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const s = db.users[uname] || currentUser;
+  const enr = db.enrollments.filter(e=>e.studentId===uname);
+
+  let totalCredits = 0;
+  let totalPoints = 0;
+  enr.forEach(e=>{
+    totalCredits += e.credits;
+    totalPoints += (e.point * e.credits);
+  });
+  const cgpa = totalCredits ? (totalPoints / totalCredits).toFixed(2) : (s.cgpa || 3.82);
+
+  const doc = document.getElementById('transcript-doc-content');
+  doc.innerHTML = `
+    <div style="text-align:center;border-bottom:2px solid #0f172a;padding-bottom:16px;margin-bottom:20px">
+      <div class="document-seal"><i class="ti ti-school"></i></div>
+      <h2 style="font-size:22px;letter-spacing:-.02em;margin-bottom:2px">UNIVERSITY OF EXCELLENCE</h2>
+      <div style="font-size:12px;text-transform:uppercase;letter-spacing:.1em;color:#64748b">Office of the University Registrar & Examinations Directorate</div>
+      <h3 style="font-size:16px;margin-top:10px;text-decoration:underline">OFFICIAL ACADEMIC TRANSCRIPT OF RECORD</h3>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:13px;margin-bottom:20px;padding:12px;background:#f8fafc;border-radius:6px">
+      <div><b>Candidate Name:</b> ${s.name}</div>
+      <div><b>Student Registration ID:</b> ${s.sid || 'STU001'}</div>
+      <div><b>Degree Program:</b> B.Sc. (Hons) in ${s.dept}</div>
+      <div><b>Current Academic Year:</b> Year ${s.yr || 3}</div>
+      <div><b>Cumulative CGPA:</b> ${cgpa} / 4.00</div>
+      <div><b>Academic Standing:</b> ${s.standing || "Dean's Honor Roll"}</div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:24px">
+      <table class="table" style="font-size:12px">
+        <thead>
+          <tr style="background:#e2e8f0">
+            <th>Course Code</th>
+            <th>Course Title</th>
+            <th>Credit Units</th>
+            <th>Grade Point</th>
+            <th>Letter Grade</th>
+            <th>Academic Term</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${enr.map(e=>{
+            const c = db.courses.find(x=>x.code===e.courseCode) || {title:e.courseCode};
+            return `
+              <tr>
+                <td><b>${e.courseCode}</b></td>
+                <td>${c.title}</td>
+                <td>${e.credits}</td>
+                <td>${e.point.toFixed(2)}</td>
+                <td><b>${e.grade}</b></td>
+                <td>${e.semester}</td>
+              </tr>
+            `;
+          }).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:40px;padding-top:20px;border-top:1px solid #cbd5e1">
+      <div>
+        <div style="font-size:11px;color:#64748b;margin-bottom:4px">Digital Verification Hash:</div>
+        <div style="font-family:monospace;font-size:11px;background:#f1f5f9;padding:4px 8px;border-radius:4px">SHA256: 7f8a9b2c3d4e5f60718293a4b5c6d7e8</div>
+        <div style="font-size:11px;color:#64748b;margin-top:4px">Issued: ${new Date().toLocaleDateString()}</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Brush Script MT',cursive;font-size:24px;color:#1e3a8a">Marcus Vance</div>
+        <div style="border-top:1px solid #000;width:180px;margin-top:4px;padding-top:4px;font-size:11px;font-weight:700">Dean Marcus Vance</div>
+        <div style="font-size:10px;color:#64748b">University Registrar & Controller</div>
+      </div>
+    </div>
+  `;
+
+  openModal('transcript-modal');
+}
+
+function openTargetGpaModal(){
+  if(!currentUser) return;
+  document.getElementById('calc-current-gpa').value = currentUser.cgpa || 3.82;
+  document.getElementById('calc-result').style.display = 'none';
+  openModal('target-gpa-modal');
+}
+
+function calculateTargetGpa(){
+  const curr = parseFloat(document.getElementById('calc-current-gpa').value) || 3.82;
+  const target = parseFloat(document.getElementById('calc-target-gpa').value) || 3.90;
+  const rem = parseInt(document.getElementById('calc-rem-sem').value) || 3;
+  const pastSem = 4; // assumption
+
+  const requiredPerSem = ((target * (pastSem + rem)) - (curr * pastSem)) / rem;
+  const res = document.getElementById('calc-result');
+  res.style.display = 'block';
+
+  if(requiredPerSem > 4.0){
+    res.innerHTML = `
+      <div style="color:var(--red);font-weight:700;margin-bottom:4px"><i class="ti ti-alert-circle"></i> Target Exceeds 4.00 Scale</div>
+      To achieve a CGPA of <b>${target.toFixed(2)}</b>, you would need an average of <b>${requiredPerSem.toFixed(2)}</b> per semester, which is above the maximum possible 4.00. Consider aiming for a target of <b>${((curr*pastSem + 4.0*rem)/(pastSem+rem)).toFixed(2)}</b>.
+    `;
+  } else {
+    res.innerHTML = `
+      <div style="color:var(--green);font-weight:700;margin-bottom:4px"><i class="ti ti-check"></i> Realistic Target Attainable!</div>
+      To achieve your goal of <b>${target.toFixed(2)} CGPA</b> upon graduation, you need to maintain an average grade of at least <b>${requiredPerSem.toFixed(2)} (approx. ${requiredPerSem>=3.7?'A / A-':'B+'})</b> across your remaining <b>${rem} semesters</b>.
+    `;
+  }
+}
+
+/* ==========================================================================
+   RENDER: COURSE CATALOG & ADD/DROP ENROLMENT
+   ========================================================================== */
+function renderCourses(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const search = (document.getElementById('courses-search')?.value || '').toLowerCase();
+  const deptFilter = document.getElementById('courses-dept-filter')?.value || 'all';
+
+  let list = db.courses;
+  if(deptFilter !== 'all') list = list.filter(c=>c.dept === deptFilter);
+  if(search) list = list.filter(c=>c.code.toLowerCase().includes(search) || c.title.toLowerCase().includes(search) || c.instructor.toLowerCase().includes(search) || c.desc.toLowerCase().includes(search));
+
+  const myEnrollments = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const totalCredits = myEnrollments.reduce((a,b)=>a+b.credits, 0);
+
+  const summary = document.getElementById('courses-enrolled-summary');
+  if(summary) summary.innerHTML = `<i class="ti ti-check"></i> Enrolled in ${myEnrollments.length} Courses (${totalCredits} / 18 Credits)`;
+
+  const grid = document.getElementById('courses-grid');
+  grid.innerHTML = list.map(c=>{
+    const isEnrolled = myEnrollments.some(e=>e.courseCode===c.code);
+    const seatsPct = Math.round((c.enrolled / c.maxSeats) * 100);
+
+    return `
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <span class="badge badge-primary" style="font-size:12px;font-weight:700">${c.code}</span>
+            <span class="badge badge-purple" style="margin-left:4px">${c.credits} Credits</span>
+          </div>
+          <span class="badge badge-teal">${c.dept}</span>
+        </div>
+
+        <h3 style="font-size:15px;font-weight:700;line-height:1.3">${c.title}</h3>
+        <p style="font-size:12px;color:var(--text2);line-height:1.4">${c.desc}</p>
+
+        <div style="font-size:11px;color:var(--text3);display:flex;flex-direction:column;gap:3px">
+          <div><i class="ti ti-user"></i> <b>Instructor:</b> ${c.instructor}</div>
+          <div><i class="ti ti-calendar-time"></i> <b>Schedule:</b> ${c.schedule}</div>
+          <div><i class="ti ti-map-pin"></i> <b>Venue:</b> ${c.venue}</div>
+          <div><i class="ti ti-arrow-right"></i> <b>Prerequisites:</b> ${c.prereq || 'None'}</div>
+        </div>
+
+        <div style="margin-top:4px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;font-weight:600;margin-bottom:3px">
+            <span>Seat Capacity</span>
+            <span>${c.enrolled} / ${c.maxSeats} Seats (${seatsPct}%)</span>
+          </div>
+          <div class="progress-bar-wrap">
+            <div class="progress-bar" style="width:${seatsPct}%;background:${seatsPct>=90?'var(--red)':'var(--accent)'}"></div>
+          </div>
+        </div>
+
+        <div style="margin-top:auto;display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--border)">
+          <button class="btn btn-outline-primary btn-xs" style="flex:1;justify-content:center" onclick="openSyllabusModal('${c.code}')">
+            <i class="ti ti-book"></i> Syllabus
+          </button>
+          ${isEnrolled ? `
+            <button class="btn btn-danger btn-xs" style="flex:1;justify-content:center" onclick="dropCourse('${c.code}')">
+              <i class="ti ti-trash"></i> Drop Course
+            </button>
+          ` : `
+            <button class="btn btn-primary btn-xs" style="flex:1;justify-content:center" onclick="enrollCourse('${c.code}')" ${c.enrolled >= c.maxSeats ? 'disabled' : ''}>
+              <i class="ti ti-plus"></i> ${c.enrolled >= c.maxSeats ? 'Class Full' : 'Enroll Now'}
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function enrollCourse(code){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const course = db.courses.find(c=>c.code===code);
+  if(!course) return;
+
+  const currentEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const currentCredits = currentEnr.reduce((a,b)=>a+b.credits, 0);
+
+  if(currentCredits + course.credits > 18){
+    notify(`Credit overload! Enrolling in ${code} (${course.credits} credits) exceeds maximum term limit of 18 credits.`, 'error');
+    return;
+  }
+
+  if(course.enrolled >= course.maxSeats){
+    notify(`Course ${code} is full! Contact department chair for seat authorization.`, 'error');
+    return;
+  }
+
+  course.enrolled += 1;
+  db.enrollments.push({
+    id: Date.now(),
+    studentId: uname,
+    courseCode: code,
+    semester: 'Semester 5 (Current)',
+    grade: 'Enrolled',
+    point: 4.0,
+    credits: course.credits,
+    attendancePct: 100,
+    status: 'In Progress'
+  });
+
+  persist();
+  notify(`Successfully enrolled in ${course.code} - ${course.title}!`);
+  renderCourses();
+}
+
+function dropCourse(code){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const course = db.courses.find(c=>c.code===code);
+
+  const idx = db.enrollments.findIndex(e=>e.studentId===uname && e.courseCode===code && e.status==='In Progress');
+  if(idx !== -1){
+    db.enrollments.splice(idx, 1);
+    if(course && course.enrolled > 0) course.enrolled -= 1;
+    persist();
+    notify(`Dropped ${code} from your schedule.`, 'info');
+    renderCourses();
+  }
+}
+
+function openSyllabusModal(code){
+  const c = db.courses.find(x=>x.code===code);
+  if(!c) return;
+
+  document.getElementById('syllabus-modal-title').textContent = `${c.code} · ${c.title}`;
+  document.getElementById('syllabus-modal-body').innerHTML = `
+    <div style="font-size:13px;line-height:1.5;margin-bottom:14px">${c.desc}</div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:6px">Course Learning Objectives</div>
+      <ul style="padding-left:18px;font-size:12px;color:var(--text2);line-height:1.6">
+        ${c.syllabus.objectives.map(o=>`<li>${o}</li>`).join('')}
+      </ul>
+    </div>
+    <div style="margin-bottom:12px">
+      <div style="font-size:11px;font-weight:700;color:var(--accent);text-transform:uppercase;margin-bottom:6px">Prescribed Textbooks</div>
+      <ul style="padding-left:18px;font-size:12px;color:var(--text2);line-height:1.6">
+        ${c.syllabus.textbooks.map(t=>`<li>${t}</li>`).join('')}
+      </ul>
+    </div>
+    <div style="padding:10px;background:var(--surface2);border-radius:var(--radius);font-size:12px">
+      <b>Evaluation Scheme:</b> ${c.syllabus.weights}
+    </div>
+  `;
+  openModal('syllabus-modal');
+}
+
+/* ==========================================================================
+   RENDER: WEEKLY CLASS TIMETABLE
+   ========================================================================== */
+function renderTimetable(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const myCodes = myEnr.map(e=>e.courseCode);
+  const myCourses = db.courses.filter(c=>myCodes.includes(c.code));
+
+  const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  const times = [
+    {label: '09:00 - 10:30', key: '09:00'},
+    {label: '11:00 - 12:30', key: '11:00'},
+    {label: '13:00 - 14:30', key: '13:00'},
+    {label: '15:00 - 16:30', key: '15:00'}
+  ];
+
+  let matrixHtml = `
+    <div class="timetable-grid">
+      <div class="timetable-header">Time</div>
+      ${days.map(d=>`<div class="timetable-header">${d}</div>`).join('')}
+
+      ${times.map(t=>{
+        return `
+          <div class="time-col-slot">${t.label}</div>
+          ${days.map(d=>{
+            const match = myCourses.find(c=>{
+              const sched = c.schedule.toLowerCase();
+              const matchDay = (d==='Monday'&&sched.includes('mon')) || (d==='Tuesday'&&sched.includes('tue')) || (d==='Wednesday'&&sched.includes('wed')) || (d==='Thursday'&&sched.includes('thu')) || (d==='Friday'&&sched.includes('fri'));
+              const matchTime = sched.includes(t.key);
+              return matchDay && matchTime;
+            });
+
+            if(match){
+              return `
+                <div class="day-col" style="padding:4px">
+                  <div class="class-slot" style="background:var(--accent-light);color:var(--text)" onclick="openSyllabusModal('${match.code}')">
+                    <div style="font-weight:700;color:var(--accent)">${match.code}</div>
+                    <div style="font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${match.title}</div>
+                    <div style="font-size:10px;color:var(--text3);margin-top:2px"><i class="ti ti-map-pin"></i> ${match.venue}</div>
+                  </div>
+                </div>
+              `;
+            } else {
+              return `<div class="day-col" style="background:var(--surface)"></div>`;
+            }
+          }).join('')}
+        `;
+      }).join('')}
+    </div>
+  `;
+
+  document.getElementById('timetable-wrap').innerHTML = matrixHtml;
+}
+
+function exportTimetableICS(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const myCourses = db.courses.filter(c=>myEnr.some(e=>e.courseCode===c.code));
+
+  let ics = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//EduSphere SIS//Student Timetable//EN\nCALSCALE:GREGORIAN\nMETHOD:PUBLISH\n";
+
+  myCourses.forEach((c, idx)=>{
+    ics += "BEGIN:VEVENT\n";
+    ics += `UID:course-${c.code}-${idx}@edusphere.campus.edu\n`;
+    ics += `SUMMARY:${c.code}: ${c.title}\n`;
+    ics += `DESCRIPTION:Instructor: ${c.instructor} | Credits: ${c.credits}\n`;
+    ics += `LOCATION:${c.venue}\n`;
+    ics += `DTSTART:20261109T090000\n`;
+    ics += `DTEND:20261109T103000\n`;
+    ics += `RRULE:FREQ=WEEKLY;UNTIL=20261220T235959Z\n`;
+    ics += "END:VEVENT\n";
+  });
+
+  ics += "END:VCALENDAR";
+
+  const blob = new Blob([ics], {type: 'text/calendar;charset=utf-8'});
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.setAttribute('download', `${currentUser.username}_timetable.ics`);
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  notify('Timetable exported as .ICS! Import directly into Apple/Google Calendar.');
+}
+
+/* ==========================================================================
+   RENDER: ACADEMIC ATTENDANCE & LEAVES
+   ========================================================================== */
+function renderAcademicAttendance(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+
+  const totalClasses = myEnr.length * 30; // approx
+  const attendedClasses = myEnr.reduce((sum, e)=>sum + Math.round((e.attendancePct/100)*30), 0);
+  const avgPct = myEnr.length ? Math.round((attendedClasses / totalClasses) * 100) : 95;
+
+  const lowAttendanceCourses = myEnr.filter(e=>e.attendancePct < 75);
+
+  const alertBox = document.getElementById('attendance-policy-alert');
+  if(lowAttendanceCourses.length > 0){
+    alertBox.innerHTML = `
+      <div style="background:var(--red-bg);color:var(--red);border:1px solid var(--red-border);padding:14px;border-radius:var(--radius);margin-bottom:18px;display:flex;align-items:center;gap:10px">
+        <i class="ti ti-alert-triangle" style="font-size:24px;flex-shrink:0"></i>
+        <div>
+          <b>Warning: Minimum Attendance Threshold Alert!</b>
+          <div style="font-size:12px;margin-top:2px">
+            Your attendance in <b>${lowAttendanceCourses.map(x=>x.courseCode).join(', ')}</b> is below 75%. Per university bylaws, candidates falling below 75% are ineligible for final examinations without an authorized medical/official excuse.
+          </div>
+        </div>
+      </div>
+    `;
+  } else {
+    alertBox.innerHTML = `
+      <div style="background:var(--green-bg);color:var(--green);border:1px solid var(--green-border);padding:12px;border-radius:var(--radius);margin-bottom:18px;display:flex;align-items:center;gap:10px;font-size:13px">
+        <i class="ti ti-check" style="font-size:20px"></i>
+        <span>All enrolled courses satisfy the mandatory 75% attendance policy for final examination seating.</span>
+      </div>
+    `;
+  }
+
+  document.getElementById('attendance-kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-val" style="color:${avgPct>=75?'var(--green)':'var(--red)'}">${avgPct}%</div>
+      <div class="kpi-lbl">Overall Attendance Average</div>
+      <div class="kpi-sub">${attendedClasses} of ${totalClasses} Lectures Attended</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">75.0%</div>
+      <div class="kpi-lbl">University Exam Threshold</div>
+      <div class="kpi-sub">Mandatory Institutional Standard</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:${lowAttendanceCourses.length?'var(--red)':'var(--green)'}">${lowAttendanceCourses.length}</div>
+      <div class="kpi-lbl">At-Risk Courses</div>
+      <div class="kpi-sub">${lowAttendanceCourses.length ? 'Urgent Action Required' : 'Zero Academic Deficits'}</div>
+    </div>
+  `;
+
+  document.getElementById('course-attendance-list').innerHTML = myEnr.map(e=>{
+    const c = db.courses.find(x=>x.code===e.courseCode) || {title:e.courseCode};
+    const pct = e.attendancePct;
+    const isWarn = pct < 75;
+
+    return `
+      <div style="padding:14px;background:var(--surface2);border-radius:var(--radius);display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-weight:700;font-size:14px">${e.courseCode} · ${c.title}</div>
+            <div style="font-size:11px;color:var(--text3)">${c.instructor} · ${c.venue}</div>
+          </div>
+          <span class="badge ${isWarn?'badge-red':'badge-green'}" style="font-size:12px;font-weight:700">
+            ${pct}% ${isWarn?'· Below 75%':'· Compliant'}
+          </span>
+        </div>
+        <div class="progress-bar-wrap">
+          <div class="progress-bar" style="width:${pct}%;background:${isWarn?'var(--red)':'var(--green)'}"></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  const myLeaves = db.leaves.filter(l=>l.studentId===uname);
+  document.getElementById('leaves-tbody').innerHTML = myLeaves.map(l=>`
+    <tr>
+      <td><b>#LEV-${l.id}</b></td>
+      <td><b>${l.courseCode}</b></td>
+      <td>${l.dates}</td>
+      <td><span class="badge badge-primary">${l.type}</span></td>
+      <td>${l.reason}</td>
+      <td><span class="badge ${l.status==='approved'?'badge-green':(l.status==='rejected'?'badge-red':'badge-amber')}">${l.status.toUpperCase()}</span></td>
+      <td>${l.reviewedBy}</td>
+    </tr>
+  `).join('');
+}
+
+function openLeaveModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const sel = document.getElementById('leave-course');
+  sel.innerHTML = myEnr.map(e=>`<option value="${e.courseCode}">${e.courseCode} - ${e.courseCode}</option>`).join('');
+  openModal('leave-modal');
+}
+
+function submitLeaveRequest(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const course = document.getElementById('leave-course').value;
+  const start = document.getElementById('leave-start').value;
+  const end = document.getElementById('leave-end').value;
+  const type = document.getElementById('leave-type').value;
+  const reason = document.getElementById('leave-reason').value.trim();
+
+  if(!start || !end || !reason){
+    notify('Please fill in date range and justification.', 'error');
+    return;
+  }
+
+  db.leaves.push({
+    id: db.leaves.length + 1,
+    studentId: uname,
+    courseCode: course,
+    dates: `${start} to ${end}`,
+    type: type,
+    reason: reason,
+    status: 'pending',
+    reviewedBy: 'Pending Review'
+  });
+
+  persist();
+  closeModal('leave-modal');
+  notify('Leave request submitted to Faculty Dean for verification!');
+  renderAcademicAttendance();
+}
+
+/* ==========================================================================
+   RENDER: EXAMS & HALL TICKETS
+   ========================================================================== */
+function renderExams(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const myCodes = myEnr.map(e=>e.courseCode);
+  const myExams = db.exams.filter(ex=>myCodes.includes(ex.courseCode));
+
+  document.getElementById('exams-kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--accent)">${myExams.length} Exams</div>
+      <div class="kpi-lbl">Scheduled Papers</div>
+      <div class="kpi-sub">Fall 2026 Examination Period</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--green)">Dec 08, 2026</div>
+      <div class="kpi-lbl">First Examination Date</div>
+      <div class="kpi-sub">CS301 at Exam Hall 1</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--purple)">Clear</div>
+      <div class="kpi-lbl">Exam Eligibility Status</div>
+      <div class="kpi-sub">Financial & Academic Clearance</div>
+    </div>
+  `;
+
+  document.getElementById('exams-tbody').innerHTML = myExams.map(ex=>`
+    <tr>
+      <td><b>${ex.courseCode}</b></td>
+      <td>${ex.title}</td>
+      <td><b>${ex.date}</b></td>
+      <td>${ex.time}</td>
+      <td><i class="ti ti-map-pin"></i> ${ex.venue}</td>
+      <td><span class="badge badge-purple" style="font-weight:700">${ex.seat}</span></td>
+      <td>${ex.invigilator}</td>
+      <td>
+        <button class="btn btn-outline-primary btn-xs" onclick="openHallTicketModal()">
+          <i class="ti ti-id"></i> Hall Ticket
+        </button>
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openHallTicketModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const s = db.users[uname] || currentUser;
+  const myEnr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+  const myCodes = myEnr.map(e=>e.courseCode);
+  const myExams = db.exams.filter(ex=>myCodes.includes(ex.courseCode));
+
+  document.getElementById('hall-ticket-content').innerHTML = `
+    <div style="text-align:center;border-bottom:2px solid #0f172a;padding-bottom:14px;margin-bottom:18px">
+      <div class="document-seal"><i class="ti ti-id"></i></div>
+      <h2 style="font-size:20px;letter-spacing:-.02em;margin-bottom:2px">UNIVERSITY OF EXCELLENCE</h2>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#64748b">Examinations & Assessment Directorate</div>
+      <h3 style="font-size:15px;margin-top:8px;text-decoration:underline">OFFICIAL EXAMINATION ADMIT CARD / HALL PASS</h3>
+      <div style="font-size:12px;font-weight:700;margin-top:4px;color:var(--accent)">END-SEMESTER FINAL EXAMINATIONS · FALL 2026</div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:center;background:#f8fafc;padding:12px;border-radius:6px;margin-bottom:18px">
+      <div style="font-size:12px;line-height:1.6">
+        <div><b>Candidate Full Name:</b> ${s.name}</div>
+        <div><b>Registration ID:</b> ${s.sid || 'STU001'}</div>
+        <div><b>Department:</b> Faculty of ${s.dept}</div>
+        <div><b>Degree Level:</b> Undergraduate Year ${s.yr || 3}</div>
+      </div>
+      <div style="text-align:center">
+        ${generateQRCodeSVG(`HALLTICKET-${s.sid || 'STU001'}-FALL2026`, 80)}
+        <div style="font-size:10px;font-family:monospace;margin-top:4px">${s.sid || 'STU001'}</div>
+      </div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:20px">
+      <table class="table" style="font-size:11px">
+        <thead>
+          <tr style="background:#e2e8f0">
+            <th>Course Code</th>
+            <th>Subject Title</th>
+            <th>Exam Date</th>
+            <th>Time Slot</th>
+            <th>Hall Venue</th>
+            <th>Desk No</th>
+            <th>Invigilator Sig</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${myExams.map(ex=>`
+            <tr>
+              <td><b>${ex.courseCode}</b></td>
+              <td>${ex.title}</td>
+              <td>${ex.date}</td>
+              <td>${ex.time}</td>
+              <td>${ex.venue}</td>
+              <td><b>${ex.seat}</b></td>
+              <td style="border-bottom:1px dashed #94a3b8;min-width:70px"></td>
+            </tr>
+          `).join('')}
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:11px;color:#64748b">
+      <div>
+        <div><b>Verification Ref:</b> ${myExams[0]?.hallTicket || 'HT-FALL2026-STU001'}</div>
+        <div>Generated: ${new Date().toLocaleDateString()} via EduSphere Secure SIS</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Brush Script MT',cursive;font-size:22px;color:#000">K. Silva</div>
+        <div style="border-top:1px solid #000;width:150px;padding-top:2px;font-weight:700">Chief Examination Officer</div>
+      </div>
+    </div>
+  `;
+
+  openModal('hall-ticket-modal');
+}
+
+/* ==========================================================================
+   RENDER: TUITION & FEES BILLING
+   ========================================================================== */
+function renderFinance(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const bill = db.billing.find(b=>b.studentId===uname) || {
+    id: 'INV-2026-01',
+    term: 'Semester 5 (Fall 2026)',
+    total: 120000,
+    paid: 120000,
+    balance: 0,
+    status: 'Paid',
+    items: [{desc: 'Tuition Fee (15 Credits)', amt: 120000}],
+    receipt: {recNo: 'REC-2026-0001', date: '2026-10-01', method: 'Online Visa', ref: 'TXN-12345678'}
+  };
+
+  const isPaid = bill.balance === 0;
+  const payBtn = document.getElementById('btn-pay-fees');
+  if(payBtn) payBtn.style.display = isPaid ? 'none' : 'inline-flex';
+
+  const badge = document.getElementById('finance-status-badge');
+  badge.className = `badge ${isPaid ? 'badge-green' : 'badge-amber'}`;
+  badge.textContent = bill.status.toUpperCase();
+
+  document.getElementById('finance-kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-val">Rs. ${bill.total.toLocaleString()}</div>
+      <div class="kpi-lbl">Total Semester Invoiced</div>
+      <div class="kpi-sub">${bill.term}</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--green)">Rs. ${bill.paid.toLocaleString()}</div>
+      <div class="kpi-lbl">Total Settled to Date</div>
+      <div class="kpi-sub">Verified University Bursary</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val" style="color:${isPaid?'var(--green)':'var(--red)'}">Rs. ${bill.balance.toLocaleString()}</div>
+      <div class="kpi-lbl">Outstanding Balance Due</div>
+      <div class="kpi-sub">${isPaid ? 'Account in Good Standing' : 'Due by ' + bill.dueDate}</div>
+    </div>
+  `;
+
+  document.getElementById('finance-scholarship-note').innerHTML = `
+    <i class="ti ti-award"></i> <b>Financial Aid & Grant:</b> ${bill.scholarship || "Standard Tuition Rate"}
+  `;
+
+  document.getElementById('finance-items-tbody').innerHTML = (bill.items || []).map(item=>`
+    <tr>
+      <td>${item.desc}</td>
+      <td style="text-align:right"><b>Rs. ${item.amt.toLocaleString()}</b></td>
+    </tr>
+  `).join('') + `
+    <tr style="background:var(--surface2);font-weight:700">
+      <td>TOTAL INVOICE AMOUNT</td>
+      <td style="text-align:right;color:var(--accent)">Rs. ${bill.total.toLocaleString()}</td>
+    </tr>
+  `;
+
+  document.getElementById('finance-history-tbody').innerHTML = `
+    <tr>
+      <td><b>${bill.receipt?.recNo || 'REC-2026-8841'}</b></td>
+      <td>${bill.receipt?.date || '2026-10-15'}</td>
+      <td><span class="badge badge-primary">${bill.receipt?.method || 'Online Visa / MasterCard'}</span></td>
+      <td><span style="font-family:monospace">${bill.receipt?.ref || 'TXN-99482015'}</span></td>
+      <td><b>Rs. ${bill.paid.toLocaleString()}</b></td>
+      <td>
+        <button class="btn btn-outline-primary btn-xs" onclick="openFeeReceiptModal()">
+          <i class="ti ti-file-text"></i> Receipt
+        </button>
+      </td>
+    </tr>
+  `;
+}
+
+function openFeeReceiptModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const s = db.users[uname] || currentUser;
+  const bill = db.billing.find(b=>b.studentId===uname) || db.billing[0];
+
+  document.getElementById('receipt-content').innerHTML = `
+    <div style="text-align:center;border-bottom:2px solid #0f172a;padding-bottom:14px;margin-bottom:18px">
+      <div class="document-seal"><i class="ti ti-file-dollar"></i></div>
+      <h2 style="font-size:20px;letter-spacing:-.02em;margin-bottom:2px">UNIVERSITY OF EXCELLENCE</h2>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:#64748b">University Bursar & Finance Division</div>
+      <h3 style="font-size:15px;margin-top:8px;text-decoration:underline">OFFICIAL TUITION INVOICE & PAYMENT RECEIPT</h3>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;font-size:12px;background:#f8fafc;padding:12px;border-radius:6px;margin-bottom:16px">
+      <div><b>Billed To:</b> ${s.name} (${s.sid || 'STU001'})</div>
+      <div><b>Receipt Number:</b> ${bill.receipt?.recNo || 'REC-2026-8841'}</div>
+      <div><b>Academic Term:</b> ${bill.term}</div>
+      <div><b>Transaction Date:</b> ${bill.receipt?.date || '2026-10-15'}</div>
+      <div><b>Payment Method:</b> ${bill.receipt?.method || 'Online Card'}</div>
+      <div><b>Bank Ref:</b> ${bill.receipt?.ref || 'TXN-99482015'}</div>
+    </div>
+
+    <div class="table-wrap" style="margin-bottom:20px">
+      <table class="table" style="font-size:12px">
+        <thead>
+          <tr style="background:#e2e8f0">
+            <th>Item Particulars</th>
+            <th style="text-align:right">Disbursed (LKR)</th>
+          </tr>
+        </thead>
+        <tbody>
+          ${(bill.items || []).map(i=>`
+            <tr>
+              <td>${i.desc}</td>
+              <td style="text-align:right">Rs. ${i.amt.toLocaleString()}</td>
+            </tr>
+          `).join('')}
+          <tr style="background:#f1f5f9;font-weight:700">
+            <td>TOTAL AMOUNT PAID</td>
+            <td style="text-align:right;color:#059669">Rs. ${bill.paid.toLocaleString()}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:20px;font-size:11px;color:#64748b">
+      <div>
+        <div style="color:#059669;font-weight:700"><i class="ti ti-shield-check"></i> PAYMENT CLEARED IN FULL</div>
+        <div>Computer generated invoice · Authorized by EduSphere Central Finance</div>
+      </div>
+      <div style="text-align:center">
+        <div style="font-family:'Brush Script MT',cursive;font-size:22px;color:#000">H. Senanayake</div>
+        <div style="border-top:1px solid #000;width:140px;padding-top:2px;font-weight:700">Chief University Bursar</div>
+      </div>
+    </div>
+  `;
+
+  openModal('receipt-modal');
+}
+
+function openPaymentGatewayModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const bill = db.billing.find(b=>b.studentId===uname);
+  const bal = bill ? bill.balance : 0;
+  document.getElementById('pay-modal-amount').textContent = `Rs. ${bal.toLocaleString()}`;
+  openModal('payment-modal');
+}
+
+function processFeePayment(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const bill = db.billing.find(b=>b.studentId===uname);
+  if(!bill) return;
+
+  const method = document.getElementById('pay-method').value;
+  bill.paid += bill.balance;
+  bill.balance = 0;
+  bill.status = 'Paid';
+  bill.receipt = {
+    recNo: `REC-2026-${Math.floor(1000 + Math.random()*9000)}`,
+    date: new Date().toISOString().split('T')[0],
+    method: method,
+    ref: `TXN-${Math.floor(10000000 + Math.random()*90000000)}`
+  };
+
+  persist();
+  closeModal('payment-modal');
+  notify('Payment successful! Outstanding fee balance cleared.');
+  renderFinance();
+}
+
+/* ==========================================================================
+   RENDER: HOSTEL & DORMITORY HUB
+   ========================================================================== */
+function renderHousing(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const housing = db.housing.find(h=>h.studentId===uname) || {
+    hall: 'Ada Lovelace Residential College',
+    block: 'Block B',
+    room: 'Room B-304',
+    type: 'Double En-Suite',
+    roommate: 'Kasun Bandara (STU003)',
+    ra: 'Devinda Alwis (RA, 4th Floor)',
+    wifi: 'Active (1 Gbps Eduroam)',
+    checkInDate: '2026-08-25'
+  };
+
+  document.getElementById('housing-allocation-card').innerHTML = `
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-home"></i> Residence Allocation & Room Details</div>
+      <span class="badge badge-green">Confirmed Resident</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px;font-size:13px">
+      <div style="background:var(--surface2);padding:12px;border-radius:var(--radius)">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:2px">Hall & Building</div>
+        <div style="font-weight:700">${housing.hall}</div>
+        <div style="font-size:12px;color:var(--text2)">${housing.block} · ${housing.room}</div>
+      </div>
+      <div style="background:var(--surface2);padding:12px;border-radius:var(--radius)">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:2px">Room Configuration</div>
+        <div style="font-weight:700">${housing.type}</div>
+        <div style="font-size:12px;color:var(--text2)">Roommate: ${housing.roommate}</div>
+      </div>
+      <div style="background:var(--surface2);padding:12px;border-radius:var(--radius)">
+        <div style="font-size:11px;color:var(--text3);margin-bottom:2px">Resident Assistant (RA)</div>
+        <div style="font-weight:700">${housing.ra}</div>
+        <div style="font-size:12px;color:var(--green)"><i class="ti ti-wifi"></i> ${housing.wifi}</div>
+      </div>
+    </div>
+  `;
+
+  const tickets = db.dormTickets.filter(t=>t.studentId===uname);
+  document.getElementById('housing-tickets-tbody').innerHTML = tickets.map(t=>`
+    <tr>
+      <td><b>#TKT-${t.id}</b></td>
+      <td><span class="badge badge-primary">${t.category}</span></td>
+      <td>${t.title}</td>
+      <td><span class="badge ${t.urgency==='High'?'badge-red':'badge-amber'}">${t.urgency}</span></td>
+      <td>${t.date}</td>
+      <td><span class="badge ${t.status==='Resolved'?'badge-green':'badge-purple'}">${t.status}</span></td>
+      <td>${t.assignedTo || 'Unassigned'}</td>
+      <td>
+        ${t.status !== 'Resolved' ? `
+          <button class="btn btn-outline-primary btn-xs" onclick="resolveDormTicket(${t.id})">
+            <i class="ti ti-check"></i> Mark Resolved
+          </button>
+        ` : `<span style="font-size:11px;color:var(--green)"><i class="ti ti-circle-check"></i> Done</span>`}
+      </td>
+    </tr>
+  `).join('');
+}
+
+function openDormTicketModal(){
+  openModal('dorm-ticket-modal');
+}
+
+function submitDormTicket(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const cat = document.getElementById('dorm-cat').value;
+  const urgency = document.getElementById('dorm-urgency').value;
+  const title = document.getElementById('dorm-title').value.trim();
+
+  if(!title){
+    notify('Please write a brief issue description.', 'error');
+    return;
+  }
+
+  db.dormTickets.push({
+    id: db.dormTickets.length + 1,
+    studentId: uname,
+    category: cat,
+    urgency: urgency,
+    title: title,
+    date: new Date().toISOString().split('T')[0],
+    status: 'Reported',
+    assignedTo: 'Campus Facilities Dispatch'
+  });
+
+  persist();
+  closeModal('dorm-ticket-modal');
+  notify('Maintenance request dispatched to facility engineers!');
+  renderHousing();
+}
+
+function resolveDormTicket(id){
+  const t = db.dormTickets.find(x=>x.id===id);
+  if(t){
+    t.status = 'Resolved';
+    persist();
+    notify(`Ticket #TKT-${id} marked as resolved!`);
+    renderHousing();
+  }
+}
+
+/* ==========================================================================
+   RENDER: CAMPUS DIGITAL LIBRARY
+   ========================================================================== */
+function renderLibrary(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myLoans = db.loans.filter(l=>l.studentId===uname);
+
+  document.getElementById('library-my-loans').innerHTML = myLoans.length ? myLoans.map(l=>{
+    const b = db.library.find(x=>x.id===l.bookId) || {title: 'Textbook'};
+    return `
+      <div style="display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:var(--surface2);border-radius:var(--radius);border-left:4px solid var(--accent)">
+        <div>
+          <div style="font-weight:700;font-size:13px">${b.title}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">
+            Borrowed: ${l.borrowDate} · <b style="color:var(--accent)">Due Date: ${l.dueDate}</b> · Overdue Fine: Rs. ${l.fine || 0}
+          </div>
+        </div>
+        <button class="btn btn-outline-primary btn-xs" onclick="renewLibraryLoan(${l.id})">
+          <i class="ti ti-rotate"></i> Renew Loan (+14d)
+        </button>
+      </div>
+    `;
+  }).join('') : '<div style="color:var(--text3);font-size:12px;padding:8px">No active book loans. You can borrow up to 4 volumes simultaneously.</div>';
+
+  const q = (document.getElementById('library-search')?.value || '').toLowerCase();
+  let books = db.library;
+  if(q) books = books.filter(b=>b.title.toLowerCase().includes(q) || b.author.toLowerCase().includes(q) || b.cat.toLowerCase().includes(q) || b.isbn.includes(q));
+
+  document.getElementById('library-catalog-tbody').innerHTML = books.map(b=>{
+    const isBorrowed = myLoans.some(l=>l.bookId===b.id);
+    return `
+      <tr>
+        <td>
+          <b>${b.title}</b>
+          <div style="font-size:11px;color:var(--text3)">${b.author}</div>
+        </td>
+        <td><span class="badge badge-primary">${b.cat}</span></td>
+        <td><span style="font-family:monospace;font-size:11px">${b.isbn}</span></td>
+        <td><i class="ti ti-map-pin"></i> ${b.loc}</td>
+        <td><b>${b.available} / ${b.total} Copies</b></td>
+        <td>
+          ${isBorrowed ? `
+            <span class="badge badge-purple">On Loan</span>
+          ` : `
+            <button class="btn btn-primary btn-xs" onclick="borrowLibraryBook(${b.id})" ${b.available<=0?'disabled':''}>
+              <i class="ti ti-bookmark"></i> ${b.available<=0?'Reserved':'Borrow'}
+            </button>
+          `}
+        </td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function renewLibraryLoan(id){
+  const loan = db.loans.find(l=>l.id===id);
+  if(loan){
+    loan.renewCount = (loan.renewCount || 0) + 1;
+    loan.dueDate = '2026-12-05';
+    persist();
+    notify('Loan renewed for an additional 14 days!');
+    renderLibrary();
+  }
+}
+
+function borrowLibraryBook(id){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const book = db.library.find(b=>b.id===id);
+  if(!book || book.available <= 0){
+    notify('All copies currently checked out. Added to reservation waitlist.', 'info');
+    return;
+  }
+
+  book.available -= 1;
+  db.loans.push({
+    id: db.loans.length + 1,
+    studentId: uname,
+    bookId: id,
+    borrowDate: new Date().toISOString().split('T')[0],
+    dueDate: '2026-11-28',
+    renewCount: 0,
+    fine: 0
+  });
+
+  persist();
+  notify(`Checked out "${book.title}". Please return by due date!`);
+  renderLibrary();
+}
+
+/* ==========================================================================
+   RENDER: CAREERS & PLACEMENTS
+   ========================================================================== */
+function renderCareers(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+
+  const myApps = db.jobApps.filter(a=>a.studentId===uname);
+  document.getElementById('careers-my-apps-tbody').innerHTML = myApps.length ? myApps.map(a=>{
+    const j = db.careers.find(x=>x.id===a.jobId) || {role: 'Job Role', company: 'Company'};
+    return `
+      <tr>
+        <td>
+          <b>${j.role}</b>
+          <div style="font-size:11px;color:var(--text3)">${j.company} · ${j.location}</div>
+        </td>
+        <td>${a.appliedDate}</td>
+        <td><span class="badge ${a.status==='Offer Extended'?'badge-green':'badge-primary'}">${a.status}</span></td>
+        <td style="font-size:12px;color:var(--text2)">${a.notes || 'Under review with campus recruiter'}</td>
+      </tr>
+    `;
+  }).join('') : '<tr><td colspan="4" style="color:var(--text3)">No job applications submitted yet. Browse open opportunities below!</td></tr>';
+
+  document.getElementById('careers-jobs-grid').innerHTML = db.careers.map(j=>{
+    const hasApplied = myApps.some(a=>a.jobId===j.id);
+    return `
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <div>
+            <h3 style="font-size:15px;font-weight:700">${j.role}</h3>
+            <div style="font-size:13px;color:var(--accent);font-weight:600">${j.company}</div>
+          </div>
+          <span class="badge badge-purple">${j.type}</span>
+        </div>
+        <p style="font-size:12px;color:var(--text2);line-height:1.4">${j.desc}</p>
+        <div style="font-size:11px;color:var(--text3);display:flex;flex-direction:column;gap:3px">
+          <div><i class="ti ti-map-pin"></i> ${j.location}</div>
+          <div><i class="ti ti-cash"></i> <b>Stipend / Comp:</b> ${j.stipend}</div>
+          <div><i class="ti ti-calendar"></i> <b>Deadline:</b> ${j.deadline}</div>
+        </div>
+        <div style="display:flex;gap:4px;flex-wrap:wrap">
+          ${j.skills.map(s=>`<span class="badge badge-primary" style="font-size:10px">${s}</span>`).join('')}
+        </div>
+        <div style="margin-top:auto;padding-top:10px;border-top:1px solid var(--border)">
+          ${hasApplied ? `
+            <button class="btn btn-secondary btn-sm" style="width:100%;justify-content:center" disabled>
+              <i class="ti ti-check"></i> Applied
+            </button>
+          ` : `
+            <button class="btn btn-primary btn-sm" style="width:100%;justify-content:center" onclick="applyJob(${j.id})">
+              <i class="ti ti-send"></i> Apply with Student Dossier
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function applyJob(id){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const j = db.careers.find(x=>x.id===id);
+  if(!j) return;
+
+  db.jobApps.push({
+    id: db.jobApps.length + 1,
+    jobId: id,
+    studentId: uname,
+    appliedDate: new Date().toISOString().split('T')[0],
+    status: 'Applied',
+    notes: 'Resume and official transcript submitted to corporate recruiter.'
+  });
+
+  persist();
+  notify(`Application submitted for ${j.role} at ${j.company}!`);
+  renderCareers();
+}
+
+/* ==========================================================================
+   RENDER: HEALTH & WELLNESS
+   ========================================================================== */
+function renderHealth(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const rec = db.health[uname] || {
+    blood: 'O+',
+    allergies: 'None',
+    conditions: 'None',
+    vaccines: ['COVID-19', 'Tetanus'],
+    emergencyContact: 'Campus Health Hotline - +94 11 234 5678',
+    appointments: []
+  };
+
+  document.getElementById('health-profile-card').innerHTML = `
+    <div class="card-header">
+      <div class="card-title"><i class="ti ti-heartbeat"></i> Confidential Medical & Wellness Profile</div>
+      <span class="badge badge-red">Confidential EHR</span>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:12px">
+      <div style="background:var(--surface2);padding:10px;border-radius:var(--radius)">
+        <div style="color:var(--text3)">Blood Group</div>
+        <div style="font-size:16px;font-weight:800;color:var(--red);margin-top:2px">${rec.blood}</div>
+      </div>
+      <div style="background:var(--surface2);padding:10px;border-radius:var(--radius)">
+        <div style="color:var(--text3)">Known Allergies</div>
+        <div style="font-weight:700;margin-top:2px">${rec.allergies}</div>
+      </div>
+      <div style="background:var(--surface2);padding:10px;border-radius:var(--radius)">
+        <div style="color:var(--text3)">Chronic Conditions</div>
+        <div style="font-weight:700;margin-top:2px">${rec.conditions}</div>
+      </div>
+      <div style="background:var(--surface2);padding:10px;border-radius:var(--radius)">
+        <div style="color:var(--text3)">Emergency Contact</div>
+        <div style="font-weight:700;margin-top:2px">${rec.emergencyContact}</div>
+      </div>
+    </div>
+  `;
+
+  const appts = rec.appointments || [];
+  document.getElementById('health-appointments-tbody').innerHTML = appts.length ? appts.map(a=>`
+    <tr>
+      <td><b>${a.service}</b></td>
+      <td>${a.doctor}</td>
+      <td>${a.date} · ${a.time}</td>
+      <td>${a.reason}</td>
+      <td><span class="badge badge-green">${a.status}</span></td>
+      <td>
+        <button class="btn btn-outline-primary btn-xs" onclick="cancelHealthAppointment(${a.id})">
+          <i class="ti ti-x"></i> Cancel
+        </button>
+      </td>
+    </tr>
+  `).join('') : '<tr><td colspan="6" style="color:var(--text3)">No scheduled health clinic appointments.</td></tr>';
+}
+
+function openHealthModal(){
+  openModal('health-modal');
+}
+
+function submitHealthAppointment(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const svc = document.getElementById('health-service').value;
+  const dt = document.getElementById('health-date').value;
+  const tm = document.getElementById('health-time').value;
+  const rsn = document.getElementById('health-reason').value.trim();
+
+  if(!dt || !rsn){
+    notify('Please specify consultation date and medical reason.', 'error');
+    return;
+  }
+
+  if(!db.health[uname]) db.health[uname] = {appointments:[]};
+  if(!db.health[uname].appointments) db.health[uname].appointments = [];
+
+  db.health[uname].appointments.push({
+    id: Date.now(),
+    service: svc,
+    doctor: svc.includes('Counseling') ? 'Dr. Shalini Ratnayake (Counselor)' : 'Dr. Priyantha Jayasuriya (Physician)',
+    date: dt,
+    time: tm,
+    reason: rsn,
+    status: 'Confirmed'
+  });
+
+  persist();
+  closeModal('health-modal');
+  notify('Appointment confirmed at Campus Wellness Clinic!');
+  renderHealth();
+}
+
+function cancelHealthAppointment(id){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  if(db.health[uname]?.appointments){
+    db.health[uname].appointments = db.health[uname].appointments.filter(a=>a.id!==id);
+    persist();
+    notify('Appointment cancelled.');
+    renderHealth();
+  }
+}
+
+/* ==========================================================================
+   RENDER: DIGITAL STUDENT SMART ID CARD
+   ========================================================================== */
+function renderIdCard(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const s = db.users[uname] || currentUser;
+
+  document.getElementById('id-card-front-content').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:flex-start">
+      <div style="display:flex;align-items:center;gap:6px">
+        <i class="ti ti-school" style="font-size:18px"></i>
+        <span style="font-size:11px;font-weight:700;letter-spacing:.05em">UNIVERSITY OF EXCELLENCE</span>
+      </div>
+      <span style="font-size:9px;text-transform:uppercase;background:rgba(255,255,255,.2);padding:2px 6px;border-radius:10px">Student ID</span>
+    </div>
+
+    <div class="id-chip" style="margin-top:10px"></div>
+
+    <div style="display:flex;align-items:center;gap:12px;margin-top:4px">
+      <div class="user-avatar" style="width:48px;height:48px;font-size:18px;border:2px solid rgba(255,255,255,.4)">
+        ${s.name.split(' ').map(x=>x[0]).join('').slice(0,2)}
+      </div>
+      <div>
+        <div style="font-size:15px;font-weight:700;line-height:1.2">${s.name}</div>
+        <div style="font-size:11px;opacity:.9">${s.dept}</div>
+        <div style="font-size:11px;opacity:.8;font-family:monospace;letter-spacing:.05em">ID: ${s.sid || 'STU001'}</div>
+      </div>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:14px">
+      <div style="font-size:9px;opacity:.8">
+        <div>VALID: 2024 - 2028</div>
+        <div>BLOOD: ${s.blood || 'O+'}</div>
+      </div>
+      <div style="font-size:18px;opacity:.8"><i class="ti ti-nfc"></i></div>
+    </div>
+  `;
+
+  document.getElementById('id-card-back-content').innerHTML = `
+    <div class="magnetic-stripe"></div>
+    <div style="font-size:9px;line-height:1.4;margin-bottom:8px">
+      This identification card is property of the university and must be surrendered upon departure. Found cards return to Registrar's Office.
+    </div>
+    <div style="font-size:9px;margin-bottom:6px">
+      <div><b>Emergency Helpline:</b> +94 11 234 5678</div>
+      <div><b>Security Control:</b> Ext 4411</div>
+    </div>
+    <div style="text-align:center;background:#fff;padding:6px;border-radius:4px;color:#000;font-family:monospace;font-size:10px;font-weight:700">
+      *${s.sid || 'STU001'}*FALL2026*
+    </div>
+  `;
+}
+
+function flipStudentIdCard(){
+  const box = document.getElementById('id-card-3d-box');
+  if(box) box.classList.toggle('flipped');
+}
+
+function printStudentIdCard(){
+  window.print();
+}
+
+/* ==========================================================================
+   AI ACADEMIC COPILOT & EARLY WARNING ADVISORY
+   ========================================================================== */
+function openAiAdvisorModal(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const s = db.users[uname] || currentUser;
+  const enr = db.enrollments.filter(e=>e.studentId===uname && e.status==='In Progress');
+
+  const lowAtt = enr.filter(e=>e.attendancePct < 75);
+  const avgAtt = enr.length ? Math.round(enr.reduce((a,b)=>a+b.attendancePct, 0) / enr.length) : 95;
+
+  let riskTier = 'Low Risk (Stellar)';
+  let riskColor = 'var(--green)';
+  if(lowAtt.length > 0 || avgAtt < 75){
+    riskTier = 'High Risk (Academic Warning Threshold)';
+    riskColor = 'var(--red)';
+  } else if(avgAtt < 82){
+    riskTier = 'Moderate Risk';
+    riskColor = 'var(--amber)';
+  }
+
+  document.getElementById('ai-advisor-content').innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;background:var(--surface2);padding:14px;border-radius:var(--radius);margin-bottom:16px">
+      <div>
+        <div style="font-size:11px;color:var(--text3);text-transform:uppercase;font-weight:700">Comprehensive Academic Health Score</div>
+        <div style="font-size:18px;font-weight:800;color:${riskColor};margin-top:2px">${riskTier}</div>
+      </div>
+      <div style="text-align:right">
+        <div style="font-size:12px;font-weight:700">CGPA: ${s.cgpa || 3.82}</div>
+        <div style="font-size:11px;color:var(--text3)">Attendance: ${avgAtt}%</div>
+      </div>
+    </div>
+
+    <div style="margin-bottom:14px">
+      <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px"><i class="ti ti-bulb"></i> AI Early-Warning Diagnostics:</div>
+      <ul style="padding-left:18px;font-size:12px;color:var(--text2);line-height:1.6">
+        ${lowAtt.length ? `
+          <li style="color:var(--red)"><b>Critical:</b> Low attendance in ${lowAtt.map(x=>x.courseCode).join(', ')}. Action: Attend the next 3 scheduled sessions to qualify for exam seating.</li>
+        ` : `
+          <li><b>Attendance:</b> Satisfies institutional 75% examination compliance.</li>
+        `}
+        <li><b>Study Load:</b> Currently enrolled in ${enr.length} courses (${enr.reduce((a,b)=>a+b.credits,0)} credits). Recommended study allocation: 18 hours/week outside lectures.</li>
+        <li><b>Co-Curricular Balance:</b> ${s.hours || 14} volunteer hours logged. Well calibrated with current academic workload.</li>
+      </ul>
+    </div>
+
+    <div style="background:var(--accent-light);padding:12px;border-radius:var(--radius);font-size:12px;color:var(--text)">
+      <div style="font-weight:700;color:var(--accent);margin-bottom:4px"><i class="ti ti-compass"></i> Recommended Career & Elective Pathway:</div>
+      Based on your high performance in ${enr.map(x=>x.courseCode).join(', ')}, you are on track for careers in <b>Cloud Infrastructure, Machine Learning Engineering, or Systems Architecture</b>. Suggested next-term elective: <b>CS410 Cloud Native Engineering</b>.
+    </div>
+  `;
+
+  openModal('ai-advisor-modal');
+}
+
+function generateAiStudyPlan(){
+  notify('AI Study Routine generated and saved to your dashboard calendar!');
+  closeModal('ai-advisor-modal');
+}
+
+/* ==========================================================================
+   RENDER: EVENTS DIRECTORY & MODALS
+   ========================================================================== */
+function renderEvents(){
+  const search = (document.getElementById('events-search')?.value || '').toLowerCase();
+  const cat = document.getElementById('events-cat-filter')?.value || 'all';
+
+  let list = db.events.filter(e=>e.status==='approved');
+  if(cat !== 'all') list = list.filter(e=>e.type === cat);
+  if(search) list = list.filter(e=>e.title.toLowerCase().includes(search) || e.venue.toLowerCase().includes(search) || e.club?.toLowerCase().includes(search));
+
+  const uname = currentUser?.username;
+  const myRegs = db.registrations.filter(r=>r.studentId===uname);
+
+  document.getElementById('events-grid').innerHTML = list.map(e=>{
+    const isReg = myRegs.some(r=>r.eventId===e.id);
+    const badgeColor = {workshop:'badge-primary', hackathon:'badge-green', sports:'badge-amber', seminar:'badge-purple', cultural:'badge-pink'}[e.type] || 'badge-primary';
+
+    return `
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start">
+          <span class="badge ${badgeColor}">${e.type.toUpperCase()}</span>
+          <span style="font-size:11px;color:var(--text3)"><i class="ti ti-users"></i> ${e.curP} / ${e.maxP}</span>
+        </div>
+        <h3 style="font-size:15px;font-weight:700;line-height:1.3">${e.title}</h3>
+        <p style="font-size:12px;color:var(--text2);line-height:1.4">${e.desc}</p>
+        <div style="font-size:11px;color:var(--text3);display:flex;flex-direction:column;gap:3px">
+          <div><i class="ti ti-calendar"></i> ${new Date(e.start).toLocaleString()}</div>
+          <div><i class="ti ti-map-pin"></i> ${e.venue}</div>
+          <div><i class="ti ti-award"></i> Hosted by ${e.club}</div>
+        </div>
+        <div style="margin-top:auto;display:flex;gap:8px;padding-top:10px;border-top:1px solid var(--border)">
+          <button class="btn btn-outline-primary btn-xs" style="flex:1;justify-content:center" onclick="openEventModal(${e.id})">
+            Details
+          </button>
+          ${isReg ? `
+            <button class="btn btn-secondary btn-xs" style="flex:1;justify-content:center" disabled>
+              <i class="ti ti-check"></i> Registered
+            </button>
+          ` : `
+            <button class="btn btn-primary btn-xs" style="flex:1;justify-content:center" onclick="registerForEvent(${e.id})">
+              Register
+            </button>
+          `}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openEventModal(id){
+  const e = db.events.find(x=>x.id===id);
+  if(!e) return;
+  const uname = currentUser?.username;
+  const isReg = db.registrations.some(r=>r.studentId===uname && r.eventId===e.id);
+
+  document.getElementById('modal-title-txt').textContent = e.title;
+  document.getElementById('modal-content').innerHTML = `
+    <div style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:14px">${e.desc}</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;background:var(--surface2);padding:12px;border-radius:var(--radius);font-size:12px;margin-bottom:16px">
+      <div><b>Type:</b> ${e.type.toUpperCase()}</div>
+      <div><b>Host:</b> ${e.club}</div>
+      <div><b>Venue:</b> ${e.venue}</div>
+      <div><b>Capacity:</b> ${e.curP} / ${e.maxP} Enrolled</div>
+      <div><b>Start:</b> ${new Date(e.start).toLocaleString()}</div>
+      <div><b>End:</b> ${new Date(e.end).toLocaleString()}</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:8px">
+      ${!isReg ? `
+        <button class="btn btn-primary" onclick="registerForEvent(${e.id});closeModal('event-modal')">
+          <i class="ti ti-ticket"></i> Confirm Registration
+        </button>
+      ` : `
+        <button class="btn btn-secondary" disabled>Already Registered</button>
+      `}
+    </div>
+  `;
+  openModal('event-modal');
+}
+
+function registerForEvent(id){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const ev = db.events.find(e=>e.id===id);
+  if(!ev) return;
+
+  const existing = db.registrations.find(r=>r.eventId===id && r.studentId===uname);
+  if(existing){
+    notify('Already registered for this event!', 'info');
+    return;
+  }
+
+  ev.curP += 1;
+  const certId = 'CERT-' + Math.random().toString(36).substring(2, 10).toUpperCase();
+
+  db.registrations.push({
+    id: db.registrations.length + 1,
+    eventId: id,
+    studentId: uname,
+    status: 'registered',
+    cert: certId,
+    certIssued: false
+  });
+
+  persist();
+  notify(`Registered for ${ev.title}! Digital pass ready.`);
+  renderEvents();
+}
+
+/* ==========================================================================
+   RENDER: CALENDAR
+   ========================================================================== */
+function renderCalendar(){
+  const y = calDate.getFullYear();
+  const m = calDate.getMonth();
+  document.getElementById('cal-month-title').textContent = `${MONTHS[m]} ${y}`;
+
+  const firstDay = new Date(y, m, 1).getDay();
+  const daysInMonth = new Date(y, m + 1, 0).getDate();
+
+  const daysGrid = document.getElementById('cal-days-grid');
+  let cellsHtml = '';
+
+  for(let i=0; i<firstDay; i++){
+    cellsHtml += `<div class="cal-day other-month"></div>`;
+  }
+
+  for(let d=1; d<=daysInMonth; d++){
+    const dStr = `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const dayEvents = db.events.filter(e=>e.start.startsWith(dStr) && e.status==='approved');
+
+    cellsHtml += `
+      <div class="cal-day ${d===15?'today':''}">
+        <span class="cal-day-num">${d}</span>
+        ${dayEvents.map(e=>`
+          <div class="cal-event-pill" style="background:var(--accent)" onclick="openEventModal(${e.id})">
+            ${e.title}
+          </div>
+        `).join('')}
+      </div>
+    `;
+  }
+
+  daysGrid.innerHTML = cellsHtml;
+}
+
+function changeCalMonth(delta){
+  calDate.setMonth(calDate.getMonth() + delta);
+  renderCalendar();
+}
+
+/* ==========================================================================
+   RENDER: MY EVENTS & PASSES
+   ========================================================================== */
+function renderMyEvents(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myRegs = db.registrations.filter(r=>r.studentId===uname);
+
+  document.getElementById('my-events-grid').innerHTML = myRegs.map(r=>{
+    const e = db.events.find(x=>x.id===r.eventId) || {title:'Event', venue:'Campus Venue', start:'2026-11-15T09:00'};
+    const hasAttended = r.status === 'attended';
+
+    return `
+      <div class="card" style="display:flex;flex-direction:column;gap:10px">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <span class="badge ${hasAttended?'badge-green':'badge-primary'}">${r.status.toUpperCase()}</span>
+          <span style="font-family:monospace;font-size:11px">${r.cert}</span>
+        </div>
+        <h3 style="font-size:15px;font-weight:700">${e.title}</h3>
+        <div style="font-size:12px;color:var(--text3)">
+          <div><i class="ti ti-calendar"></i> ${new Date(e.start).toLocaleString()}</div>
+          <div><i class="ti ti-map-pin"></i> ${e.venue}</div>
+        </div>
+        <div style="margin-top:auto;display:flex;gap:6px;padding-top:10px;border-top:1px solid var(--border)">
+          <button class="btn btn-primary btn-xs" style="flex:1;justify-content:center" onclick="openPassModal(${r.eventId})">
+            <i class="ti ti-qrcode"></i> QR Pass
+          </button>
+          ${hasAttended ? `
+            <button class="btn btn-success btn-xs" style="flex:1;justify-content:center" onclick="openCertModal(${r.eventId})">
+              <i class="ti ti-certificate"></i> Certificate
+            </button>
+            <button class="btn btn-outline-primary btn-xs" onclick="openFeedbackModal(${r.eventId})" title="Review Event">
+              <i class="ti ti-star"></i>
+            </button>
+          ` : `
+            <span style="font-size:11px;color:var(--text3);display:flex;align-items:center;padding-left:6px">Check-in at gate</span>
+          `}
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+function openPassModal(eventId){
+  const e = db.events.find(x=>x.id===eventId);
+  const r = db.registrations.find(x=>x.eventId===eventId && x.studentId===currentUser?.username);
+  if(!e || !r) return;
+
+  document.getElementById('ticket-event-title').textContent = e.title;
+  document.getElementById('ticket-event-venue').textContent = `${e.venue} · ${new Date(e.start).toLocaleString()}`;
+  document.getElementById('ticket-code-txt').textContent = r.cert;
+  document.getElementById('ticket-student-name').textContent = `Pass Holder: ${currentUser.name} (${currentUser.sid || 'STU001'})`;
+  document.getElementById('ticket-event-date').textContent = "Present this digital pass at the venue entrance gate.";
+
+  document.getElementById('ticket-qr-container').innerHTML = generateQRCodeSVG(r.cert, 140);
+  openModal('pass-modal');
+}
+
+function openCertModal(eventId){
+  const e = db.events.find(x=>x.id===eventId);
+  const r = db.registrations.find(x=>x.eventId===eventId && x.studentId===currentUser?.username);
+  if(!e || !r) return;
+
+  document.getElementById('cert-content').innerHTML = `
+    <div class="document-box" style="text-align:center;border:6px double #d4af37;background:#fffaf0;color:#1e293b;padding:36px;border-radius:12px">
+      <div style="width:54px;height:54px;margin:0 auto 10px;background:#d4af37;color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px">
+        <i class="ti ti-award"></i>
+      </div>
+      <div style="font-size:11px;text-transform:uppercase;letter-spacing:.15em;color:#854d0e;margin-bottom:4px">University of Excellence</div>
+      <h2 style="font-size:22px;color:#1e293b;letter-spacing:-.02em;margin-bottom:12px">Certificate of Participation</h2>
+      <p style="font-size:13px;color:#475569;margin-bottom:6px">This credential certifies that</p>
+      <h3 style="font-size:20px;color:#0f172a;text-decoration:underline;margin-bottom:8px">${currentUser.name}</h3>
+      <p style="font-size:12px;color:#475569;max-width:480px;margin:0 auto 18px">
+        has successfully attended and participated in <b>"${e.title}"</b> organized by the <b>${e.club}</b> on ${new Date(e.start).toLocaleDateString()}.
+      </p>
+      <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-top:24px;padding-top:14px;border-top:1px solid #e2e8f0;font-size:11px">
+        <div style="text-align:left">
+          <div><b>Ref Code:</b> ${r.cert}</div>
+          <div>Verified Authenticity via EduSphere SIS</div>
+        </div>
+        <div style="text-align:center">
+          <div style="font-family:'Brush Script MT',cursive;font-size:20px">Marcus Vance</div>
+          <div style="border-top:1px solid #000;width:120px;padding-top:2px">University Registrar</div>
+        </div>
+      </div>
+    </div>
+  `;
+  openModal('cert-modal');
+}
+
+function openFeedbackModal(eventId){
+  fbEventId = eventId;
+  const e = db.events.find(x=>x.id===eventId);
+  document.getElementById('fb-modal-title').textContent = `Review: ${e.title}`;
+  document.getElementById('fb-form').innerHTML = `
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:13px;color:var(--text2);margin-bottom:8px">How was your event experience?</div>
+      <div style="display:flex;justify-content:center;gap:8px" id="fb-stars">
+        ${[1,2,3,4,5].map(i=>`
+          <span class="star" onclick="setFeedbackRating(${i})" id="fb-star-${i}" style="font-size:28px;cursor:pointer;color:#cbd5e1">★</span>
+        `).join('')}
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Constructive Feedback / Suggestions</label>
+      <textarea id="fb-comment" class="form-input" rows="3" placeholder="Share what you liked or how organizers can improve..."></textarea>
+    </div>
+    <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="submitFeedback()"><i class="ti ti-send"></i> Submit Review</button>
+  `;
+  setFeedbackRating(5);
+  openModal('feedback-modal');
+}
+
+function setFeedbackRating(r){
+  fbRating = r;
+  for(let i=1; i<=5; i++){
+    const el = document.getElementById(`fb-star-${i}`);
+    if(el) el.style.color = (i <= r) ? '#f59e0b' : '#cbd5e1';
+  }
+}
+
+function submitFeedback(){
+  const comm = document.getElementById('fb-comment')?.value.trim();
+  db.feedback.push({
+    id: db.feedback.length + 1,
+    eventId: fbEventId,
+    userId: currentUser?.username,
+    rating: fbRating,
+    comment: comm || 'Excellent event!'
+  });
+  persist();
+  closeModal('feedback-modal');
+  notify('Thank you for your valuable feedback review!');
+}
+
+/* ==========================================================================
+   RENDER: CLUBS & VOLUNTEERS
+   ========================================================================== */
+function renderClubs(){
+  document.getElementById('clubs-grid').innerHTML = db.clubs.map(c=>`
+    <div class="card" style="display:flex;flex-direction:column;gap:10px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start">
+        <h3 style="font-size:15px;font-weight:700">${c.name}</h3>
+        <span class="badge badge-primary">${c.category}</span>
+      </div>
+      <p style="font-size:12px;color:var(--text2);line-height:1.4">${c.desc}</p>
+      <div style="font-size:11px;color:var(--text3);margin-top:auto">
+        <div><i class="ti ti-user"></i> <b>Advisor:</b> ${c.advisor}</div>
+        <div><i class="ti ti-users"></i> <b>Members:</b> ${c.members}</div>
+      </div>
+      <button class="btn btn-outline-primary btn-xs" style="width:100%;justify-content:center;margin-top:6px" onclick="notify('Society affiliation request recorded!')">
+        <i class="ti ti-plus"></i> Join Society
+      </button>
+    </div>
+  `).join('');
+}
+
+function saveNewClub(){
+  const name = document.getElementById('new-club-name').value.trim();
+  const cat = document.getElementById('new-club-cat').value;
+  const adv = document.getElementById('new-club-advisor').value.trim();
+  const desc = document.getElementById('new-club-desc').value.trim();
+
+  if(!name){ notify('Club name required', 'error'); return; }
+  db.clubs.push({
+    id: db.clubs.length + 1,
+    name: name,
+    category: cat,
+    advisor: adv || 'Faculty Directorate',
+    president: currentUser?.name,
+    members: 1,
+    desc: desc
+  });
+  persist();
+  closeModal('add-club-modal');
+  notify(`Society "${name}" chartered!`);
+  renderClubs();
+}
+
+function renderVolunteers(){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  const myVols = db.volunteers.filter(v=>v.studentId===uname);
+  const totalHrs = myVols.reduce((a,b)=>a+b.hours, 0);
+
+  document.getElementById('volunteers-kpis').innerHTML = `
+    <div class="kpi">
+      <div class="kpi-val" style="color:var(--accent)">${totalHrs} hrs</div>
+      <div class="kpi-lbl">Total Service Hours Logged</div>
+      <div class="kpi-sub">Official Co-Curricular Transcript</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-val">${myVols.length} Roles</div>
+      <div class="kpi-lbl">Active Assignments</div>
+      <div class="kpi-sub">Leadership Credential</div>
+    </div>
+  `;
+
+  document.getElementById('my-volunteers-tbody').innerHTML = myVols.map(v=>{
+    const e = db.events.find(x=>x.id===v.eventId) || {title:'Event'};
+    return `
+      <tr>
+        <td><b>${e.title}</b></td>
+        <td>${v.role}</td>
+        <td>${v.hours} hrs</td>
+        <td><span class="badge ${v.status==='confirmed'?'badge-green':'badge-amber'}">${v.status.toUpperCase()}</span></td>
+      </tr>
+    `;
+  }).join('');
+
+  const ops = [
+    {eventId: 2, role: 'Stage Coordination & Speaker Liaison', hours: 6},
+    {eventId: 3, role: 'Referee & Match Scoring Desk', hours: 8},
+    {eventId: 4, role: 'Audio-Visual & Live Streaming', hours: 4}
+  ];
+
+  document.getElementById('volunteer-ops-list').innerHTML = ops.map(o=>{
+    const ev = db.events.find(x=>x.id===o.eventId) || {title:'Event'};
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface2);border-radius:var(--radius)">
+        <div>
+          <div style="font-weight:700;font-size:13px">${ev.title}</div>
+          <div style="font-size:11px;color:var(--text3);margin-top:2px">Role: ${o.role} · Award: ${o.hours} Leadership Hours</div>
+        </div>
+        <button class="btn btn-outline-primary btn-xs" onclick="applyVolunteer(${o.eventId}, '${o.role}', ${o.hours})">
+          <i class="ti ti-hand-stop"></i> Volunteer
+        </button>
+      </div>
+    `;
+  }).join('');
+}
+
+function applyVolunteer(eventId, role, hours){
+  if(!currentUser) return;
+  const uname = currentUser.username;
+  db.volunteers.push({
+    id: db.volunteers.length + 1,
+    eventId: eventId,
+    studentId: uname,
+    role: role,
+    status: 'confirmed',
+    hours: hours
+  });
+  persist();
+  notify(`Enrolled as volunteer: ${role}!`);
+  renderVolunteers();
+}
+
+/* ==========================================================================
+   RENDER: FACULTY & ADMIN PORTALS
+   ========================================================================== */
+function renderStudents(){
+  const search = (document.getElementById('student-search')?.value || '').toLowerCase();
+  const dept = document.getElementById('student-dept-filter')?.value || 'all';
+
+  let list = Object.entries(db.users).filter(([k,u])=>u.role==='student');
+  if(dept !== 'all') list = list.filter(([k,u])=>u.dept === dept);
+  if(search) list = list.filter(([k,u])=>u.name.toLowerCase().includes(search) || u.sid?.toLowerCase().includes(search) || u.dept?.toLowerCase().includes(search));
+
+  document.getElementById('students-grid').innerHTML = list.map(([username, s])=>`
+    <div class="card" style="display:flex;flex-direction:column;gap:8px">
+      <div style="display:flex;align-items:center;gap:10px">
+        <div class="user-avatar" style="width:40px;height:40px">${s.name.split(' ').map(x=>x[0]).join('').slice(0,2)}</div>
+        <div>
+          <div style="font-weight:700;font-size:13px">${s.name}</div>
+          <div style="font-size:11px;color:var(--text3)">${s.sid || 'STU'} · Year ${s.yr || 1}</div>
+        </div>
+        <span class="badge badge-primary" style="margin-left:auto">GPA ${s.cgpa || s.gpa || 3.8}</span>
+      </div>
+      <div style="font-size:11px;color:var(--text2)">
+        <div><b>Faculty:</b> ${s.dept}</div>
+        <div><b>Credits:</b> ${s.credits || 88} / ${s.maxCredits || 120}</div>
+        <div><b>Residence:</b> ${s.dorm || 'Off-Campus'}</div>
+      </div>
+      <button class="btn btn-outline-primary btn-xs" style="margin-top:auto;width:100%;justify-content:center" onclick="openStudentModal('${username}')">
+        <i class="ti ti-id"></i> Dossier & Transcript
+      </button>
+    </div>
+  `).join('');
+}
+
+function openStudentModal(username){
+  const s = db.users[username];
+  if(!s) return;
+  const enr = db.enrollments.filter(e=>e.studentId===username);
+
+  document.getElementById('student-modal-content').innerHTML = `
+    <div style="display:flex;align-items:center;gap:14px;margin-bottom:16px">
+      <div class="user-avatar" style="width:50px;height:50px;font-size:18px">${s.name.split(' ').map(x=>x[0]).join('').slice(0,2)}</div>
+      <div>
+        <h3 style="font-size:16px;font-weight:700">${s.name}</h3>
+        <p style="font-size:12px;color:var(--text3)">ID: ${s.sid} · Faculty of ${s.dept} (Year ${s.yr})</p>
+      </div>
+    </div>
+    <div class="kpi-grid" style="margin-bottom:14px">
+      <div class="kpi" style="padding:10px"><div class="kpi-val" style="font-size:18px">${s.cgpa || s.gpa || 3.82}</div><div class="kpi-lbl">CGPA</div></div>
+      <div class="kpi" style="padding:10px"><div class="kpi-val" style="font-size:18px;color:var(--green)">${s.credits || 88}</div><div class="kpi-lbl">Credits</div></div>
+      <div class="kpi" style="padding:10px"><div class="kpi-val" style="font-size:18px;color:var(--accent)">${s.hours || 14} hrs</div><div class="kpi-lbl">Service</div></div>
+    </div>
+    <h4 style="font-size:12px;font-weight:700;margin-bottom:6px">Course History</h4>
+    <div class="table-wrap">
+      <table class="table" style="font-size:11px">
+        <thead><tr><th>Course</th><th>Credits</th><th>Grade</th><th>Term</th></tr></thead>
+        <tbody>
+          ${enr.map(e=>`<tr><td><b>${e.courseCode}</b></td><td>${e.credits}</td><td><b>${e.grade}</b></td><td>${e.semester}</td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>
+  `;
+  openModal('student-modal');
+}
+
+function saveNewStudent(){
+  const sid = document.getElementById('new-stu-id').value.trim();
+  const name = document.getElementById('new-stu-name').value.trim();
+  const dept = document.getElementById('new-stu-dept').value;
+  const yr = parseInt(document.getElementById('new-stu-year').value);
+  const gpa = parseFloat(document.getElementById('new-stu-gpa').value);
+  const pw = document.getElementById('new-stu-pw').value;
+
+  if(!sid || !name){ notify('ID and Name required', 'error'); return; }
+
+  const uKey = 'student_' + sid.toLowerCase();
+  db.users[uKey] = {
+    pw: pw,
+    name: name,
+    role: 'student',
+    dept: dept,
+    yr: yr,
+    sid: sid,
+    gpa: gpa,
+    cgpa: gpa,
+    credits: 30 * yr,
+    maxCredits: 120,
+    standing: 'Good Standing',
+    hours: 0,
+    clubs: []
+  };
+
+  persist();
+  closeModal('add-student-modal');
+  notify(`Enrolled student ${name} (${sid})!`);
+  renderStudents();
+}
+
+function renderGradeEntry(){
+  const students = Object.entries(db.users).filter(([k,u])=>u.role==='student');
+  const stuSel = document.getElementById('grade-student-select');
+  stuSel.innerHTML = students.map(([k,u])=>`<option value="${k}">${u.name} (${u.sid || k})</option>`).join('');
+
+  updateGradeFormCourses();
+
+  document.getElementById('grade-records-tbody').innerHTML = db.enrollments.map(e=>{
+    const s = db.users[e.studentId] || {name: e.studentId};
+    return `
+      <tr>
+        <td><b>${s.name}</b></td>
+        <td><b>${e.courseCode}</b></td>
+        <td>${e.semester}</td>
+        <td><span class="badge ${e.grade==='Enrolled'?'badge-primary':'badge-green'}">${e.grade}</span></td>
+        <td>${e.point.toFixed(2)}</td>
+        <td>${e.attendancePct}%</td>
+        <td><span class="badge badge-purple">${e.status}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function updateGradeFormCourses(){
+  const crsSel = document.getElementById('grade-course-select');
+  crsSel.innerHTML = db.courses.map(c=>`<option value="${c.code}">${c.code} - ${c.title}</option>`).join('');
+}
+
+function saveFacultyGrade(){
+  const stuKey = document.getElementById('grade-student-select').value;
+  const courseCode = document.getElementById('grade-course-select').value;
+  const grade = document.getElementById('grade-val-select').value;
+
+  const points = {'A+':4.0,'A':4.0,'A-':3.7,'B+':3.3,'B':3.0,'B-':2.7,'C+':2.3,'C':2.0,'F':0.0}[grade] || 3.0;
+
+  let enr = db.enrollments.find(e=>e.studentId===stuKey && e.courseCode===courseCode);
+  if(enr){
+    enr.grade = grade;
+    enr.point = points;
+    enr.status = 'Completed';
+  } else {
+    db.enrollments.push({
+      id: Date.now(),
+      studentId: stuKey,
+      courseCode: courseCode,
+      semester: 'Semester 5 (Current)',
+      grade: grade,
+      point: points,
+      credits: 4,
+      attendancePct: 92,
+      status: 'Completed'
+    });
+  }
+
+  persist();
+  notify(`Official grade ${grade} submitted for ${courseCode}!`);
+  renderGradeEntry();
+}
+
+function renderApprovals(){
+  const pendingEvents = db.events.filter(e=>e.status==='pending');
+  document.getElementById('approvals-events-list').innerHTML = pendingEvents.length ? pendingEvents.map(e=>`
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--surface2);border-radius:var(--radius);margin-bottom:8px">
+      <div>
+        <div style="font-weight:700;font-size:13px">${e.title}</div>
+        <div style="font-size:11px;color:var(--text3)">${e.type.toUpperCase()} · ${e.venue} · Budget: Rs. ${e.budget?.toLocaleString()}</div>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn btn-success btn-xs" onclick="approveEvent(${e.id})"><i class="ti ti-check"></i> Approve</button>
+        <button class="btn btn-danger btn-xs" onclick="rejectEvent(${e.id})"><i class="ti ti-x"></i> Reject</button>
+      </div>
+    </div>
+  `).join('') : '<div style="font-size:12px;color:var(--text3);padding:8px">No pending event proposals awaiting review.</div>';
+
+  const pendingLeaves = db.leaves.filter(l=>l.status==='pending');
+  document.getElementById('approvals-leaves-tbody').innerHTML = pendingLeaves.length ? pendingLeaves.map(l=>{
+    const s = db.users[l.studentId] || {name: l.studentId};
+    return `
+      <tr>
+        <td><b>${s.name}</b> (${l.studentId})</td>
+        <td><b>${l.courseCode}</b></td>
+        <td>${l.dates}</td>
+        <td><span class="badge badge-primary">${l.type}</span></td>
+        <td>${l.reason}</td>
+        <td>
+          <button class="btn btn-success btn-xs" onclick="approveLeave(${l.id})"><i class="ti ti-check"></i> Approve</button>
+          <button class="btn btn-danger btn-xs" onclick="rejectLeave(${l.id})"><i class="ti ti-x"></i> Reject</button>
+        </td>
+      </tr>
+    `;
+  }).join('') : '<tr><td colspan="6" style="color:var(--text3)">No student medical/absence leaves awaiting authorization.</td></tr>';
+}
+
+function approveEvent(id){
+  const e = db.events.find(x=>x.id===id);
+  if(e){ e.status = 'approved'; persist(); notify('Event approved!'); renderApprovals(); setupUI(); }
+}
+function rejectEvent(id){
+  const e = db.events.find(x=>x.id===id);
+  if(e){ e.status = 'rejected'; persist(); notify('Event rejected.', 'error'); renderApprovals(); setupUI(); }
+}
+function approveLeave(id){
+  const l = db.leaves.find(x=>x.id===id);
+  if(l){
+    l.status = 'approved';
+    l.reviewedBy = currentUser?.name || 'Faculty Dean';
+    // Excused absence boost
+    const enr = db.enrollments.find(e=>e.studentId===l.studentId && e.courseCode===l.courseCode);
+    if(enr) enr.attendancePct = Math.min(100, enr.attendancePct + 5);
+    persist();
+    notify('Leave approved and absence excused!');
+    renderApprovals();
+    setupUI();
+  }
+}
+function rejectLeave(id){
+  const l = db.leaves.find(x=>x.id===id);
+  if(l){
+    l.status = 'rejected';
+    l.reviewedBy = currentUser?.name || 'Faculty Dean';
+    persist();
+    notify('Leave request rejected.', 'error');
+    renderApprovals();
+    setupUI();
+  }
+}
+
+function submitNewEvent(){
+  const title = document.getElementById('new-evt-title').value.trim();
+  const type = document.getElementById('new-evt-type').value;
+  const venue = document.getElementById('new-evt-venue').value.trim();
+  const start = document.getElementById('new-evt-start').value;
+  const end = document.getElementById('new-evt-end').value;
+  const deadline = document.getElementById('new-evt-deadline').value;
+  const maxP = parseInt(document.getElementById('new-evt-max').value) || 100;
+  const budget = parseInt(document.getElementById('new-evt-budget').value) || 50000;
+  const desc = document.getElementById('new-evt-desc').value.trim();
+
+  if(!title || !venue || !start){ notify('Title, venue, and start time required', 'error'); return; }
+
+  db.events.push({
+    id: db.events.length + 1,
+    code: 'EVT' + String(db.events.length + 1).padStart(3, '0'),
+    title: title,
+    desc: desc || 'Official university program.',
+    type: type,
+    venue: venue,
+    start: start,
+    end: end || start,
+    deadline: deadline || start,
+    maxP: maxP,
+    curP: 0,
+    budget: budget,
+    organizer: currentUser?.username,
+    club: 'Dean of Students Office',
+    status: currentUser?.role==='admin' ? 'approved' : 'pending'
+  });
+
+  persist();
+  notify('Event proposal submitted successfully!');
+  navigate('events');
+}
+
+function generateAiEventDesc(){
+  const title = document.getElementById('new-evt-title').value.trim();
+  const type = document.getElementById('new-evt-type').value;
+  document.getElementById('new-evt-desc').value = `Join faculty and fellow students for "${title || 'this program'}", an intensive, practical ${type} designed to impart cutting-edge industry skills, promote collaborative problem-solving, and offer networking with collegiate leaders. Certified certificates of participation awarded.`;
+  notify('AI promotional copy generated!');
+}
+
+function renderAttendancePage(){
+  const attendedRegs = db.registrations.filter(r=>r.status==='attended');
+  document.getElementById('attendance-audit-tbody').innerHTML = attendedRegs.map(r=>{
+    const s = db.users[r.studentId] || {name: r.studentId, sid: 'STU001'};
+    const e = db.events.find(x=>x.id===r.eventId) || {title: 'Event'};
+    return `
+      <tr>
+        <td><b>${s.name}</b></td>
+        <td>${s.sid || 'STU001'}</td>
+        <td>${e.title}</td>
+        <td>${r.checkedInAt || '2026-11-15 09:15'}</td>
+        <td><span class="badge badge-green">${r.cert}</span></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function processQrCheckIn(){
+  const code = document.getElementById('qr-input-code').value.trim();
+  if(!code){ notify('Enter or scan a pass code', 'error'); return; }
+
+  const r = db.registrations.find(x=>x.cert.toLowerCase() === code.toLowerCase() || x.studentId.toLowerCase() === code.toLowerCase());
+  if(r){
+    r.status = 'attended';
+    r.certIssued = true;
+    r.checkedInAt = new Date().toISOString().replace('T',' ').substring(0,16);
+    persist();
+    notify(`Check-in verified! Certificate issued for ${r.studentId}.`);
+    document.getElementById('qr-input-code').value = '';
+    renderAttendancePage();
+  } else {
+    notify('Invalid or unverified QR admission code.', 'error');
+  }
+}
+
+function renderBudgetPage(){
+  const totalBudget = db.events.reduce((a,b)=>a+(b.budget||0), 0);
+  const totalExp = db.expenses.reduce((a,b)=>a+b.amt, 0);
+
+  document.getElementById('budget-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val">Rs. ${totalBudget.toLocaleString()}</div><div class="kpi-lbl">Total Allocated Event Budgets</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--accent)">Rs. ${totalExp.toLocaleString()}</div><div class="kpi-lbl">Disbursed Expenses</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--green)">Rs. ${(totalBudget-totalExp).toLocaleString()}</div><div class="kpi-lbl">Remaining Operational Reserves</div></div>
+  `;
+
+  const sel = document.getElementById('exp-event-select');
+  sel.innerHTML = db.events.map(e=>`<option value="${e.id}">${e.title}</option>`).join('');
+
+  document.getElementById('budget-expenses-tbody').innerHTML = db.expenses.map(x=>{
+    const e = db.events.find(ev=>ev.id===x.eventId) || {title:'General'};
+    return `
+      <tr>
+        <td><b>${e.title}</b></td>
+        <td><span class="badge badge-primary">${x.cat}</span></td>
+        <td>${x.desc}</td>
+        <td>${x.date}</td>
+        <td style="text-align:right"><b>Rs. ${x.amt.toLocaleString()}</b></td>
+      </tr>
+    `;
+  }).join('');
+}
+
+function saveNewExpense(){
+  const evId = parseInt(document.getElementById('exp-event-select').value);
+  const cat = document.getElementById('exp-cat-select').value;
+  const amt = parseInt(document.getElementById('exp-amt').value);
+  const desc = document.getElementById('exp-desc').value.trim();
+
+  if(!amt || !desc){ notify('Expense amount and description required', 'error'); return; }
+
+  db.expenses.push({
+    id: db.expenses.length + 1,
+    eventId: evId,
+    cat: cat,
+    amt: amt,
+    desc: desc,
+    date: new Date().toISOString().split('T')[0]
+  });
+
+  persist();
+  notify('Expense posted to university general ledger!');
+  renderBudgetPage();
+}
+
+function runAiBudgetOptimizer(){
+  notify('AI Budget Recommendation: Reallocate 15% from printed banners to cloud computational credits to maximize hackathon throughput!');
+}
+
+function renderReports(){
+  const students = Object.values(db.users).filter(u=>u.role==='student');
+  students.sort((a,b)=>(b.cgpa||b.gpa||0) - (a.cgpa||a.gpa||0));
+
+  document.getElementById('reports-kpis').innerHTML = `
+    <div class="kpi"><div class="kpi-val">${students.length}</div><div class="kpi-lbl">Total Student Body</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--accent)">3.80</div><div class="kpi-lbl">Mean University GPA</div></div>
+    <div class="kpi"><div class="kpi-val" style="color:var(--green)">${db.events.length}</div><div class="kpi-lbl">Programs Hosted</div></div>
+  `;
+
+  document.getElementById('reports-leaderboard-tbody').innerHTML = students.map((s, idx)=>`
+    <tr>
+      <td><b>#${idx+1}</b></td>
+      <td><b>${s.name}</b> (${s.sid})</td>
+      <td>${s.dept}</td>
+      <td><span class="badge badge-green">${s.cgpa || s.gpa}</span></td>
+      <td>${s.hours || 0} hrs</td>
+    </tr>
+  `).join('');
+
+  document.getElementById('reports-dept-stats').innerHTML = `
+    <div style="background:var(--surface2);padding:10px;border-radius:var(--radius);font-size:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>Computer Science & IT</b><span>142 Students (52%)</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:52%;background:var(--accent)"></div></div>
+    </div>
+    <div style="background:var(--surface2);padding:10px;border-radius:var(--radius);font-size:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>Faculty of Engineering</b><span>88 Students (32%)</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:32%;background:var(--green)"></div></div>
+    </div>
+    <div style="background:var(--surface2);padding:10px;border-radius:var(--radius);font-size:12px">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px"><b>School of Business</b><span>44 Students (16%)</span></div>
+      <div class="progress-bar-wrap"><div class="progress-bar" style="width:16%;background:var(--purple)"></div></div>
+    </div>
+  `;
+}
+
+function renderAnnouncements(){
+  document.getElementById('announcements-list').innerHTML = db.announcements.map(a=>`
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
+        <h3 style="font-size:15px;font-weight:700">${a.title}</h3>
+        <span class="badge ${a.priority==='high'?'badge-red':'badge-primary'}">${a.priority.toUpperCase()}</span>
+      </div>
+      <p style="font-size:13px;color:var(--text2);line-height:1.5;margin-bottom:8px">${a.msg}</p>
+      <div style="font-size:11px;color:var(--text3);display:flex;gap:12px">
+        <span><i class="ti ti-calendar"></i> ${a.date}</span>
+        <span><i class="ti ti-user"></i> ${a.author}</span>
+      </div>
+    </div>
+  `).join('');
+}
+
+function postAnnouncement(){
+  const title = document.getElementById('anc-title').value.trim();
+  const prio = document.getElementById('anc-priority').value;
+  const msg = document.getElementById('anc-msg').value.trim();
+
+  if(!title || !msg){ notify('Title and message required', 'error'); return; }
+
+  db.announcements.unshift({
+    id: db.announcements.length + 1,
+    title: title,
+    priority: prio,
+    msg: msg,
+    date: new Date().toISOString().split('T')[0],
+    author: currentUser?.name || 'Campus Administrator'
+  });
+
+  persist();
+  closeModal('announce-modal');
+  notify('Announcement published campus-wide!');
+  renderAnnouncements();
+}
+
+/* ==========================================================================
+   MODAL CONTROLLER
+   ========================================================================== */
+function openModal(id){
+  const el = document.getElementById(id);
+  if(el) el.classList.add('open');
+}
+
+function closeModal(id){
+  const el = document.getElementById(id);
+  if(el) el.classList.remove('open');
+}
+
+document.addEventListener('keydown', e=>{
+  if(e.key === 'Escape'){
+    document.querySelectorAll('.modal-overlay.open').forEach(m=>m.classList.remove('open'));
+  }
+});
+
+/* ==========================================================================
+   THEME CONTROLLER (DARK & LIGHT MODE)
+   ========================================================================== */
+function toggleDarkMode(){
+  document.body.classList.toggle('dark');
+  const isDark = document.body.classList.contains('dark');
+  const icon = document.getElementById('theme-icon');
+  if(icon) icon.className = isDark ? 'ti ti-sun' : 'ti ti-moon';
+  localStorage.setItem('eventhub-theme', isDark ? 'dark' : 'light');
+  localStorage.setItem('eventhub_theme', isDark ? 'dark' : 'light');
+}
+
+(function initTheme(){
+  const saved = localStorage.getItem('eventhub-theme') || localStorage.getItem('eventhub_theme');
+  const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+  if(saved === 'dark' || (!saved && prefersDark)){
+    document.body.classList.add('dark');
+    const icon = document.getElementById('theme-icon');
+    if(icon) icon.className = 'ti ti-sun';
+  }
+})();
+
+// Auto initialize on load
+navigate('login');
+</script>
+</body>
+</html>
+

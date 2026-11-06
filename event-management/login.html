@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Event Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Student Login</h2>
+            <form id="loginForm">
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" required>
+                </div>
+                <div id="message"></div>
+                <button type="submit" class="btn">Login</button>
+            </form>
+            <p class="link">Don't have an account? <a href="register.html">Register here</a></p>
+            <p class="link" style="margin-top: 10px;"><a href="index.html">← Back to Home</a></p>
+        </div>
+    </div>
+    <script>
+        const loginForm = document.getElementById('loginForm');
+        const messageDiv = document.getElementById('message');
+
+        function showLoginError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            if (field) {
+                field.setAttribute('aria-invalid', 'true');
+                field.style.borderColor = '#ef4444';
+                field.focus();
+            }
+            alert(message);
+        }
+
+        loginForm.querySelectorAll('input').forEach(field => {
+            field.addEventListener('input', () => {
+                field.removeAttribute('aria-invalid');
+                field.style.borderColor = '';
+            });
+        });
+
+        loginForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+
+            if (!email) return showLoginError('email', 'Email: Please enter your email address.');
+            if (!email.includes('@') || !email.includes('.')) return showLoginError('email', 'Email: Please enter a valid email address.');
+            if (!password) return showLoginError('password', 'Password: Please enter your password.');
+
+            const formData = new FormData();
+            formData.append('email', email);
+            formData.append('password', password);
+
+            try {
+                const response = await fetch('php/login.php', { method: 'POST', body: formData });
+                const result = await response.json();
+
+                if (result.success) {
+                    messageDiv.innerHTML = '<p class="success">' + result.message + '</p>';
+                    setTimeout(() => window.location.href = result.is_admin ? 'admin.html' : 'events.html', 800);
+                } else {
+                    messageDiv.innerHTML = '<p class="error">' + result.message + '</p>';
+                    showLoginError(result.field === 'email' || result.field === 'password' ? result.field : null, result.message);
+                }
+            } catch (error) {
+                const text = 'Login failed: Server or database connection is unavailable.';
+                messageDiv.innerHTML = '<p class="error">' + text + '</p>';
+                alert(text);
+            }
+        });
+    </script>
+</body>
+</html>

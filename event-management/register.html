@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Event Management</title>
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/theme.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="form-box">
+            <h2>Student Registration</h2>
+            <form id="registerForm">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="input-group">
+                    <label>Email</label>
+                    <input type="email" id="email" required>
+                </div>
+                <div class="input-group">
+                    <label>Contact Number</label>
+                    <input type="tel" id="contact" pattern="[0-9]{10}" required>
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" minlength="6" required>
+                </div>
+                <div class="input-group">
+                    <label>Confirm Password</label>
+                    <input type="password" id="confirmPassword" required>
+                </div>
+                <div id="message"></div>
+                <button type="submit" class="btn">Register</button>
+            </form>
+            <p class="link">Already have an account? <a href="login.html">Login here</a></p>
+            <p class="link" style="margin-top: 10px;"><a href="index.html">← Back to Home</a></p>
+        </div>
+    </div>
+    <script>
+        const registerForm = document.getElementById('registerForm');
+
+        function showFieldError(fieldId, message) {
+            const field = document.getElementById(fieldId);
+            field.setAttribute('aria-invalid', 'true');
+            field.style.borderColor = '#ef4444';
+            alert(message);
+            field.focus();
+        }
+
+        registerForm.querySelectorAll('input').forEach((field) => {
+            field.addEventListener('input', () => {
+                field.removeAttribute('aria-invalid');
+                field.style.borderColor = '';
+            });
+        });
+
+        registerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const contact = document.getElementById('contact').value.trim();
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const messageDiv = document.getElementById('message');
+
+            if (!name) return showFieldError('name', 'Full Name: Please enter your full name.');
+            if (name.length < 3) return showFieldError('name', 'Full Name: Must be at least 3 characters.');
+            if (!email) return showFieldError('email', 'Email: Please enter your email address.');
+            if (!email.includes('@') || !email.includes('.')) return showFieldError('email', 'Email: Please enter a valid email address.');
+            if (!/^\d{10}$/.test(contact)) return showFieldError('contact', 'Contact Number: Enter exactly 10 digits without spaces or symbols.');
+            if (!password) return showFieldError('password', 'Password: Please enter a password.');
+            if (password.length < 6) return showFieldError('password', 'Password: Must be at least 6 characters.');
+            if (!confirmPassword) return showFieldError('confirmPassword', 'Confirm Password: Please confirm your password.');
+            if (password !== confirmPassword) return showFieldError('confirmPassword', 'Confirm Password: Passwords do not match.');
+
+            try {
+                const formData = new FormData();
+                formData.append('name', name);
+                formData.append('email', email);
+                formData.append('contact', contact);
+                formData.append('password', password);
+
+                const response = await fetch('php/register.php', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    messageDiv.innerHTML = '<p class="success">' + result.message + '</p>';
+                    alert('Registration successful. Redirecting to login.');
+                    setTimeout(() => window.location.href = 'login.html', 1500);
+                } else {
+                    messageDiv.innerHTML = '<p class="error">' + result.message + '</p>';
+                    alert(result.message);
+                    if (result.field) showFieldError(result.field, result.message);
+                }
+            } catch (error) {
+                const text = 'Registration failed: Server or database connection is unavailable.';
+                messageDiv.innerHTML = '<p class="error">' + text + '</p>';
+                alert(text);
+            }
+        });
+    </script>
+</body>
+</html>
